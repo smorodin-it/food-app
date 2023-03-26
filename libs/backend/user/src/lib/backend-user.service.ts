@@ -23,6 +23,14 @@ export class BackendUserService {
     });
   }
 
+  async retrieveByEmail(email: string): Promise<UserModel | null> {
+    return this.ps.user.findUnique({
+      where: {
+        email,
+      },
+    });
+  }
+
   async list(): Promise<UserModel[]> {
     return this.ps.user.findMany();
   }
