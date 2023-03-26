@@ -35,7 +35,17 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "libs/backend/orm",
-        "command": "pnpx prisma db push --schema ./src/lib/prisma/schema.prisma"
+        "commands": [
+          "pnpx prisma generate --schema ./src/lib/prisma/schema.prisma",
+          "pnpx prisma db push --schema ./src/lib/prisma/schema.prisma"
+        ]
+      }
+    },
+    "generate-client": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/backend/orm",
+        "command": "pnpx prisma generate --schema ./src/lib/prisma/schema.prisma"
       }
     }
   },
