@@ -1,7 +1,18 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { BackendAuthService } from './backend-auth.service';
+import { SignInDto, SignUpDto } from './backend-auth.dto';
 
-@Controller('backend-auth')
+@Controller('auth')
 export class BackendAuthController {
-  constructor(private backendAuthService: BackendAuthService) {}
+  constructor(private as: BackendAuthService) {}
+
+  @Post('/sign-up')
+  async signUp(@Body() dto: SignUpDto): Promise<void> {
+    return this.as.createUser(dto);
+  }
+
+  @Post('/sign-in')
+  async signIn(@Body() dto: SignInDto): Promise<void> {
+    return;
+  }
 }

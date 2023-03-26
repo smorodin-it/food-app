@@ -7,7 +7,7 @@ export class BackendUserService {
   constructor(private ps: PrismaService) {}
 
   async create(dto: CreateUserDto): Promise<void> {
-    this.ps.user.create({
+    await this.ps.user.create({
       data: {
         email: dto.email,
         passwordHash: dto.passwordHash,
@@ -28,7 +28,7 @@ export class BackendUserService {
   }
 
   async setActive(id: string, status: boolean): Promise<void> {
-    this.ps.user.update({
+    await this.ps.user.update({
       where: { id },
       data: {
         active: status,
@@ -37,7 +37,7 @@ export class BackendUserService {
   }
 
   async updateEmail(id: string, email: string): Promise<void> {
-    this.ps.user.update({
+    await this.ps.user.update({
       where: { id },
       data: {
         email,
