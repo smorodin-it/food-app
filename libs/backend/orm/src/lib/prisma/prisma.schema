@@ -1,0 +1,80 @@
+datasource db {
+  url      = env("DATABASE_URL")
+  provider = "postgres"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../client"
+}
+
+model User {
+  id           String        @unique @default(uuid())
+  email        String        @unique
+  passwordHash String
+  refreshToken String        @unique
+  profile      Profile?
+  inventories  Inventory[]
+  measurements Measurement[]
+  ingredients  Ingredient[]
+  meals        Meal[]
+}
+
+model Profile {
+  id         String   @unique @default(uuid())
+  firstName  String?
+  lastName   String?
+  patronymic String?
+  birthDate  DateTime
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String   @unique
+}
+
+model Inventory {
+  id     String @unique @default(uuid())
+  name   String
+  weight Int
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+}
+
+model Measurement {
+  id     String   @unique @default(uuid())
+  weight Int
+  date   DateTime
+  User   User     @relation(fields: [userId], references: [id])
+  userId String
+}
+
+model Ingredient {
+  id           String               @unique @default(uuid())
+  name         String
+  manufacturer String
+  barcode      String
+  proteins     String
+  carbs        String
+  fats         String
+  calories     String
+  User         User                 @relation(fields: [userId], references: [id])
+  userId       String
+  meals        IngredientsOnMeals[]
+}
+
+model Meal {
+  id          String               @unique @default(uuid())
+  name        String
+  totalWeight Int
+  User        User                 @relation(fields: [userId], references: [id])
+  userId      String
+  ingredients IngredientsOnMeals[]
+}
+
+model IngredientsOnMeals {
+  ingredientWeight Int
+  Ingredient       Ingredient @relation(fields: [ingredientId], references: [id])
+  ingredientId     String
+  Meal             Meal       @relation(fields: [mealId], references: [id])
+  mealId           String
+
+  @@id([ingredientId, mealId])
+}
