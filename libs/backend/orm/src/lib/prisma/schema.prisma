@@ -5,7 +5,8 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../client"
+  // output   = "../../../../../../node_modules/.prisma/client"
+  output   = "./client"
 }
 
 model User {

@@ -37,3 +37,9 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Env Files
+.env
+
+# Prisma Client
+libs/backend/orm/src/lib/prisma/client

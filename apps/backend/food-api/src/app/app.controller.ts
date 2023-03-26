@@ -1,13 +1,15 @@
 import { Controller, Get } from '@nestjs/common';
 
-import { AppService } from './app.service';
+import { PrismaService } from './prisma.service';
+
+import { User as UserModel } from '@food-app/backend/orm';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   @Get()
-  getData() {
-    return this.appService.getData();
+  async getDataById(): Promise<UserModel[]> {
+    return this.prismaService.user.findMany();
   }
 }
