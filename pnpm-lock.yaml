@@ -22,6 +22,7 @@ specifiers:
   '@types/jest': ^29.4.0
   '@types/node': ~18.7.1
   '@types/passport-jwt': ^3.0.8
+  '@types/passport-local': ^1.0.35
   '@typescript-eslint/eslint-plugin': ^5.36.1
   '@typescript-eslint/parser': ^5.36.1
   axios: ^1.0.0
@@ -33,6 +34,7 @@ specifiers:
   nx: 15.8.9
   passport: ^0.6.0
   passport-jwt: ^4.0.1
+  passport-local: ^1.0.0
   prettier: ^2.6.2
   prisma: ^4.11.0
   reflect-metadata: ^0.1.13
@@ -52,6 +54,7 @@ dependencies:
   bcrypt: 5.1.0
   passport: 0.6.0
   passport-jwt: 4.0.1
+  passport-local: 1.0.0
   reflect-metadata: 0.1.13
   rxjs: 7.8.0
   tslib: 2.5.0
@@ -73,6 +76,7 @@ devDependencies:
   '@types/jest': 29.5.0
   '@types/node': 18.7.23
   '@types/passport-jwt': 3.0.8
+  '@types/passport-local': 1.0.35
   '@typescript-eslint/eslint-plugin': 5.56.0_7lbsg5yv6zrjyi4lstrrputap4
   '@typescript-eslint/parser': 5.56.0_hx5tgzcbd2ycqgjduqhliuc3jm
   eslint: 8.15.0
@@ -2719,7 +2723,7 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 18.7.23
+      '@types/node': 18.15.9
     dev: true
 
   /@types/bonjour/3.5.10:
@@ -2738,7 +2742,7 @@ packages:
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 18.7.23
+      '@types/node': 18.15.9
     dev: true
 
   /@types/eslint-scope/3.7.4:
@@ -2842,6 +2846,14 @@ packages:
     dependencies:
       '@types/express': 4.17.17
       '@types/jsonwebtoken': 9.0.1
+      '@types/passport-strategy': 0.2.35
+    dev: true
+
+  /@types/passport-local/1.0.35:
+    resolution: {integrity: sha512-K4eLTJ8R0yYW8TvCqkjB0pTKoqfUSdl5PfZdidTjV2ETV3604fQxtY6BHKjQWAx50WUS0lqzBvKv3LoI1ZBPeA==}
+    dependencies:
+      '@types/express': 4.17.17
+      '@types/passport': 1.0.12
       '@types/passport-strategy': 0.2.35
     dev: true
 
@@ -7127,6 +7139,13 @@ packages:
     resolution: {integrity: sha512-UCKMDYhNuGOBE9/9Ycuoyh7vP6jpeTp/+sfMJl7nLff/t6dps+iaeE0hhNkKN8/HZHcJ7lCdOyDxHdDoxoSvdQ==}
     dependencies:
       jsonwebtoken: 9.0.0
+      passport-strategy: 1.0.0
+    dev: false
+
+  /passport-local/1.0.0:
+    resolution: {integrity: sha512-9wCE6qKznvf9mQYYbgJ3sVOHmCWoUNMVFoZzNoznmISbhnNNPhN9xfY3sLmScHMetEJeoY7CXwfhCe7argfQow==}
+    engines: {node: '>= 0.4.0'}
+    dependencies:
       passport-strategy: 1.0.0
     dev: false
 
