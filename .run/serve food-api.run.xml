@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="serve food-api" type="NxRunConfigurationType">
+    <option name="nx-projects" value="backend-food-api" />
+    <option name="nx-targets" value="serve" />
+    <envs />
+    <option name="arguments" value="" />
+    <method v="2" />
+  </configuration>
+</component>

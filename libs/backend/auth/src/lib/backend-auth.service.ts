@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { BackendUserService } from '@food-app/backend/user';
 import { SignInDto, SignUpDto } from './backend-auth.dto';
 import * as bcrypt from 'bcrypt';
-import { User as UserModel } from '@food-app/backend/orm';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class BackendAuthService {
-  constructor(private us: BackendUserService) {}
+  constructor(private us: BackendUserService, private js: JwtService) {}
 
   async createUser(dto: SignUpDto): Promise<void> {
     const hash = await bcrypt.hash(dto.password, 10);
@@ -17,14 +17,15 @@ export class BackendAuthService {
 
   async validateUser(
     dto: SignInDto
-  ): Promise<Omit<UserModel, 'passwordHash'> | null> {
+  ): Promise<{ accessToken: string; refreshToken: string } | null> {
     const user = await this.us.retrieveByEmail(dto.email);
 
     if (user && (await bcrypt.compare(dto.password, user.passwordHash))) {
-      // TODO: Return JWT tokens
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { passwordHash, ...rest } = user;
-      return rest;
+      const payload = { sub: user.id };
+      return {
+        accessToken: await this.js.signAsync(payload),
+        refreshToken: await this.js.signAsync(payload),
+      };
     }
 
     return null;
