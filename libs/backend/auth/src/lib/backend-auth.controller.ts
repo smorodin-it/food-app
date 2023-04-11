@@ -1,10 +1,8 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 
 import { BackendAuthService } from './backend-auth.service';
-import { SignUpDto } from './backend-auth.dto';
-import { LocalAuthGuard } from './backend-local-auth.guard';
-import { Request } from 'express';
-import { Public } from './backend-auth.constants';
+import { SignInDto, SignUpDto } from './backend-auth.dto';
+import { Public } from './backend-auth.decorators';
 
 @Controller('auth')
 export class BackendAuthController {
@@ -13,13 +11,14 @@ export class BackendAuthController {
   @Public()
   @Post('/sign-up')
   async signUp(@Body() dto: SignUpDto): Promise<void> {
+    console.log(dto);
     return this.as.createUser(dto);
   }
 
-  @UseGuards(LocalAuthGuard)
   @Public()
   @Post('/sign-in')
-  async signIn(@Req() req: Request) {
-    return req.user;
+  async signIn(@Body() dto: SignInDto) {
+    console.log(dto);
+    return this.as.validateUser(dto);
   }
 }
