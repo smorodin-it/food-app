@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@food-app/backend/auth": ["libs/backend/auth/src/index.ts"],
+      "@food-app/backend/ingredient": ["libs/backend/ingredient/src/index.ts"],
       "@food-app/backend/orm": ["libs/backend/orm/src/index.ts"],
       "@food-app/backend/user": ["libs/backend/user/src/index.ts"]
     }

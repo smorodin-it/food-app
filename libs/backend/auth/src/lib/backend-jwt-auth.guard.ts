@@ -24,7 +24,7 @@ export class BackendJwtAuthGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFromHeader(request);
+    const token = this._extractTokenFromHeader(request);
     if (!token) {
       throw new UnauthorizedException();
     }
@@ -38,7 +38,7 @@ export class BackendJwtAuthGuard implements CanActivate {
     return true;
   }
 
-  private extractTokenFromHeader(request: Request): string | null {
+  private _extractTokenFromHeader(request: Request): string | null {
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
     return type === 'Bearer' ? token : null;
   }
