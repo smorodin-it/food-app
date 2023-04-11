@@ -6,8 +6,8 @@ import { CreateUserDto } from './backend-user.dto';
 export class BackendUserService {
   constructor(private ps: PrismaService) {}
 
-  async create(dto: CreateUserDto): Promise<void> {
-    await this.ps.user.create({
+  async create(dto: CreateUserDto): Promise<UserModel> {
+    return this.ps.user.create({
       data: {
         email: dto.email,
         passwordHash: dto.passwordHash,

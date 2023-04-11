@@ -1,10 +1,15 @@
 export class SignInDto {
-  email = '';
-  password = '';
+  email!: string;
+  password!: string;
 }
 
 export class SignUpDto {
-  email = '';
-  password = '';
-  confirmPassword = '';
+  email!: string;
+  password!: string;
+  confirmPassword!: string;
+}
+
+export class TokensDto {
+  accessToken!: string;
+  refreshToken!: string;
 }
