@@ -31,6 +31,16 @@ export class BackendUserService {
     });
   }
 
+  async retrieveByRefreshToken(
+    refreshToken: string
+  ): Promise<UserModel | null> {
+    return this.ps.user.findUnique({
+      where: {
+        refreshToken,
+      },
+    });
+  }
+
   async list(): Promise<UserModel[]> {
     return this.ps.user.findMany();
   }

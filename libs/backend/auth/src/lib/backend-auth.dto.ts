@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsUUID } from 'class-validator';
 import { IsEqualTo } from './backend-auth.decorators';
 
 export class SignInDto {
@@ -21,7 +21,12 @@ export class SignUpDto {
   confirmPassword!: string;
 }
 
-export class TokensDto {
+export class RefreshTokenDto {
+  @IsUUID('4')
+  refreshToken!: string;
+}
+
+export class ResponseTokens {
   accessToken!: string;
   refreshToken!: string;
 }
