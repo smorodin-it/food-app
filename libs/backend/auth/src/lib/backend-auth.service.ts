@@ -33,12 +33,17 @@ export class BackendAuthService {
     return null;
   }
 
-  private async _generateTokens(user: UserModel): Promise<TokensDto> {
+  private async _generateTokens(user: UserModel): Promise<TokensDto | null> {
     const payload = { sub: user.id };
     const refreshToken = randomUUID();
-    return {
-      accessToken: await this.js.signAsync(payload),
-      refreshToken,
-    };
+
+    const update = await this.us.updateRefreshToken(user.id, refreshToken);
+
+    return update
+      ? {
+          accessToken: await this.js.signAsync(payload),
+          refreshToken,
+        }
+      : null;
   }
 }

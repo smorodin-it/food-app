@@ -52,4 +52,15 @@ export class BackendUserService {
       },
     });
   }
+
+  async updateRefreshToken(id: string, refreshToken: string): Promise<boolean> {
+    const user = await this.ps.user.update({
+      where: { id },
+      data: {
+        refreshToken,
+      },
+    });
+
+    return !!user;
+  }
 }
