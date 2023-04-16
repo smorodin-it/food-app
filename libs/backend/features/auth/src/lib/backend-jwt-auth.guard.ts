@@ -8,10 +8,15 @@ import { JwtService } from '@nestjs/jwt';
 import { IS_PUBLIC_KEY, JwtConstants } from './backend-auth.constants';
 import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
+import { BackendClsStoreService } from '@food-app/backend/cls-store';
 
 @Injectable()
 export class BackendJwtAuthGuard implements CanActivate {
-  constructor(private js: JwtService, private reflector: Reflector) {}
+  constructor(
+    private js: JwtService,
+    private reflector: Reflector,
+    private cls: BackendClsStoreService
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
@@ -29,10 +34,10 @@ export class BackendJwtAuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
     try {
-      console.log(request['user']);
       request['user'] = await this.js.verifyAsync(token, {
         secret: JwtConstants.secret,
       });
+      this.cls.set('user', { id: request['user'].sub });
     } catch {
       throw new UnauthorizedException();
     }

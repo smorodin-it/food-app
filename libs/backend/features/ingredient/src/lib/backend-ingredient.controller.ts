@@ -28,16 +28,11 @@ export class BackendIngredientController {
 
   @Post('/')
   async create(
-    @Req() req: Request,
     @Body() dto: IngredientCreateUpdateDto
   ): Promise<{ id: string }> {
-    let user;
-    if ('user' in req) {
-      console.log(req.user);
-      // user = req.user;
-    }
+    const ingredient = await this.is.create(dto);
 
-    return this.is.create(dto);
+    return { id: ingredient.id };
   }
 
   @Get('/:id')

@@ -7,10 +7,11 @@ import {
   IngredientCreateUpdateDto,
   IsDeletedDto,
 } from './backend-ingredient.dto';
+import { BackendClsStoreService } from '@food-app/backend/cls-store';
 
 @Injectable()
 export class BackendIngredientService {
-  constructor(private ps: PrismaService) {}
+  constructor(private ps: PrismaService, private cls: BackendClsStoreService) {}
 
   async list(): Promise<IngredientModel[]> {
     return this.ps.ingredient.findMany();
@@ -42,7 +43,7 @@ export class BackendIngredientService {
         carbs: dto.carbs,
         User: {
           connect: {
-            id: '123',
+            id: this.cls.get('user.id'),
           },
         },
       },
