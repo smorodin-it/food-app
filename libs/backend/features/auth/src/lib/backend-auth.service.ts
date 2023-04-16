@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { BackendUserService } from '@food-app/backend/user';
+import { BackendUserService } from '@food-app/backend/features/user';
 import {
   SignInDto,
   SignUpDto,

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { BackendAuthController } from './backend-auth.controller';
 import { BackendAuthService } from './backend-auth.service';
-import { BackendUserModule } from '@food-app/backend/user';
+import { BackendUserModule } from '@food-app/backend/features/user';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtConstants } from './backend-auth.constants';
