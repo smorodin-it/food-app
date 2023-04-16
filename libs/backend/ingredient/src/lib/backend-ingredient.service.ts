@@ -25,6 +25,12 @@ export class BackendIngredientService {
     });
   }
 
+  async retrieveByBarcode(barcode: number): Promise<IngredientModel | null> {
+    return this.ps.ingredient.findUnique({
+      where: { barcode },
+    });
+  }
+
   async create(dto: IngredientCreateDto): Promise<{ id: string }> {
     const ingredient = await this.ps.ingredient.create({
       data: {

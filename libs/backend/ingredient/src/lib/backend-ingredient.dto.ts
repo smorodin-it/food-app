@@ -3,7 +3,7 @@ import { OmitType } from '@nestjs/mapped-types';
 export class IngredientCreateDto {
   name!: string;
   manufacturer!: string;
-  barcode!: string;
+  barcode!: number;
   proteins!: string;
   carbs!: string;
   fats!: string;

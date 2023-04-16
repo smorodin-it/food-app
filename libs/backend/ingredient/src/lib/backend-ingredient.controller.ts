@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { BackendIngredientService } from './backend-ingredient.service';
 import { Ingredient as IngredientModel } from '@food-app/backend/orm';
 import {
@@ -39,5 +48,12 @@ export class BackendIngredientController {
   @Patch('/delete/:id')
   async delete(@Param('id') ingredientId: string, @Body() dto: IsDeletedDto) {
     return this.is.setIsDeletedStatus(ingredientId, dto);
+  }
+
+  @Get('/barcode/:barcode')
+  async retrieveByBarcode(
+    @Param('barcode', ParseIntPipe) barcode: number
+  ): Promise<IngredientModel | null> {
+    return this.is.retrieveByBarcode(barcode);
   }
 }
