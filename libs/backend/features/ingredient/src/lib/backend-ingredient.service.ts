@@ -4,8 +4,7 @@ import {
   PrismaService,
 } from '@food-app/backend/orm';
 import {
-  IngredientCreateDto,
-  IngredientUpdateDto,
+  IngredientCreateUpdateDto,
   IsDeletedDto,
 } from './backend-ingredient.dto';
 
@@ -31,17 +30,21 @@ export class BackendIngredientService {
     });
   }
 
-  async create(dto: IngredientCreateDto): Promise<{ id: string }> {
+  async create(dto: IngredientCreateUpdateDto): Promise<{ id: string }> {
     const ingredient = await this.ps.ingredient.create({
       data: {
         barcode: dto.barcode,
         name: dto.name,
         manufacturer: dto.manufacturer,
-        userId: dto.userId,
         calories: dto.calories,
         proteins: dto.proteins,
         fats: dto.fats,
         carbs: dto.carbs,
+        User: {
+          connect: {
+            id: '123',
+          },
+        },
       },
     });
 
@@ -52,7 +55,7 @@ export class BackendIngredientService {
 
   async update(
     ingredientId: string,
-    dto: IngredientUpdateDto
+    dto: IngredientCreateUpdateDto
   ): Promise<{ status: boolean }> {
     const ingredient = await this.ps.ingredient.update({
       where: {

@@ -7,14 +7,15 @@ import {
   Patch,
   Post,
   Put,
+  Req,
 } from '@nestjs/common';
 import { BackendIngredientService } from './backend-ingredient.service';
 import { Ingredient as IngredientModel } from '@food-app/backend/orm';
 import {
-  IngredientCreateDto,
-  IngredientUpdateDto,
+  IngredientCreateUpdateDto,
   IsDeletedDto,
 } from './backend-ingredient.dto';
+import { Request } from 'express';
 
 @Controller('ingredient')
 export class BackendIngredientController {
@@ -26,7 +27,16 @@ export class BackendIngredientController {
   }
 
   @Post('/')
-  async create(@Body() dto: IngredientCreateDto): Promise<{ id: string }> {
+  async create(
+    @Req() req: Request,
+    @Body() dto: IngredientCreateUpdateDto
+  ): Promise<{ id: string }> {
+    let user;
+    if ('user' in req) {
+      console.log(req.user);
+      // user = req.user;
+    }
+
     return this.is.create(dto);
   }
 
@@ -40,7 +50,7 @@ export class BackendIngredientController {
   @Put('/:id')
   async update(
     @Param('id') ingredientId: string,
-    @Body() dto: IngredientUpdateDto
+    @Body() dto: IngredientCreateUpdateDto
   ) {
     return this.is.update(ingredientId, dto);
   }

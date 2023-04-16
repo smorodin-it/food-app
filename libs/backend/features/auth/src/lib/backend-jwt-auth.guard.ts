@@ -29,6 +29,7 @@ export class BackendJwtAuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
     try {
+      console.log(request['user']);
       request['user'] = await this.js.verifyAsync(token, {
         secret: JwtConstants.secret,
       });
