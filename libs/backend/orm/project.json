@@ -41,6 +41,16 @@
         ]
       }
     },
+    "db-push:data-loss": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/backend/orm",
+        "commands": [
+          "pnpx prisma generate --schema ./src/lib/prisma/schema.prisma",
+          "pnpx prisma db push --schema ./src/lib/prisma/schema.prisma --accept-data-loss"
+        ]
+      }
+    },
     "generate-client": {
       "executor": "nx:run-commands",
       "options": {

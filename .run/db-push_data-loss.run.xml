@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="db-push:data-loss" type="NxRunConfigurationType">
+    <option name="nx-projects" value="backend-orm" />
+    <option name="nx-targets" value="db-push:data-loss" />
+    <envs />
+    <option name="arguments" value="" />
+    <method v="2" />
+  </configuration>
+</component>
