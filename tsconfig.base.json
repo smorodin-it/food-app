@@ -25,7 +25,13 @@
       "@food-app/backend/features/user": [
         "libs/backend/features/user/src/index.ts"
       ],
-      "@food-app/backend/orm": ["libs/backend/orm/src/index.ts"]
+      "@food-app/backend/orm": ["libs/backend/orm/src/index.ts"],
+      "@food-app/frontend/data-access/auth": [
+        "libs/frontend/data-access/auth/src/index.ts"
+      ],
+      "@food-app/frontend/data-access/https": [
+        "libs/frontend/data-access/https/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
