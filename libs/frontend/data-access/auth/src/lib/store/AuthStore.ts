@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { TokenPayloadModel } from '../model/AuthModel';
+import { TokenPayloadModel, TokensModel } from '../model/AuthModel';
 
 class Auth {
   isAuth = false;
@@ -13,17 +13,15 @@ class Auth {
     this.isAuth = status;
   }
 
-  setTokenPayload(token: string | null): void {
-    if (token) {
-      this.tokenPayload = this.parseJwt(token);
-    } else {
-      this.tokenPayload = null;
-    }
+  processTokens(tokens: TokensModel | null): void {
+    this.setTokenPayload(tokens?.accessToken ?? null);
+    this.setTokensToLocalStorage(tokens);
   }
 
   clear(): void {
     this.setAuth(false);
     this.setTokenPayload(null);
+    this.setTokensToLocalStorage(null);
   }
 
   private parseJwt(token: string) {
@@ -38,6 +36,24 @@ class Auth {
     );
 
     return JSON.parse(jsonPayload) as TokenPayloadModel;
+  }
+
+  private setTokenPayload(token: string | null): void {
+    if (token) {
+      this.tokenPayload = this.parseJwt(token);
+    } else {
+      this.tokenPayload = null;
+    }
+  }
+
+  private setTokensToLocalStorage(tokens: TokensModel | null): void {
+    if (tokens) {
+      localStorage.setItem('accessToken', tokens.accessToken);
+      localStorage.setItem('refreshToken', tokens.refreshToken);
+    } else {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+    }
   }
 }
 
