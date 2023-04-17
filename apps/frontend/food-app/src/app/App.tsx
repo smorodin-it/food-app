@@ -1,17 +1,12 @@
-import styled from '@emotion/styled';
-
-import NxWelcome from './nx-welcome';
-
-const StyledApp = styled.div`
-  // Your style here
-`;
+import { AppRouter } from './router/AppRouter';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { theme } from './theme/theme';
 
 export function App() {
   return (
-    <StyledApp>
-      <NxWelcome title="frontend-food-app" />
-    </StyledApp>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AppRouter />
+    </ThemeProvider>
   );
 }
-
-export default App;
