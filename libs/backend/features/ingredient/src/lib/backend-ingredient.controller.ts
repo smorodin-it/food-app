@@ -7,22 +7,23 @@ import {
   Patch,
   Post,
   Put,
-  Req,
 } from '@nestjs/common';
-import { BackendIngredientService } from './backend-ingredient.service';
-import { Ingredient as IngredientModel } from '@food-app/backend/orm';
+import {
+  BackendIngredientService,
+  IngredientListResponse,
+  IngredientResponse,
+} from './backend-ingredient.service';
 import {
   IngredientCreateUpdateDto,
   IsDeletedDto,
 } from './backend-ingredient.dto';
-import { Request } from 'express';
 
 @Controller('ingredient')
 export class BackendIngredientController {
   constructor(private is: BackendIngredientService) {}
 
   @Get('/')
-  async list(): Promise<IngredientModel[]> {
+  async list(): Promise<IngredientListResponse[]> {
     return this.is.list();
   }
 
@@ -38,7 +39,7 @@ export class BackendIngredientController {
   @Get('/:id')
   async retrieve(
     @Param('id') ingredientId: string
-  ): Promise<IngredientModel | null> {
+  ): Promise<IngredientResponse | null> {
     return this.is.retrieve(ingredientId);
   }
 
@@ -46,19 +47,22 @@ export class BackendIngredientController {
   async update(
     @Param('id') ingredientId: string,
     @Body() dto: IngredientCreateUpdateDto
-  ) {
+  ): Promise<{ status: boolean }> {
     return this.is.update(ingredientId, dto);
   }
 
   @Patch('/delete/:id')
-  async delete(@Param('id') ingredientId: string, @Body() dto: IsDeletedDto) {
+  async delete(
+    @Param('id') ingredientId: string,
+    @Body() dto: IsDeletedDto
+  ): Promise<{ status: boolean }> {
     return this.is.setIsDeletedStatus(ingredientId, dto);
   }
 
   @Get('/barcode/:barcode')
   async retrieveByBarcode(
     @Param('barcode', ParseIntPipe) barcode: number
-  ): Promise<IngredientModel | null> {
+  ): Promise<IngredientResponse | null> {
     return this.is.retrieveByBarcode(barcode);
   }
 }

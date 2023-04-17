@@ -9,25 +9,62 @@ import {
 } from './backend-ingredient.dto';
 import { BackendClsStoreService } from '@food-app/backend/cls-store';
 
+export type IngredientListResponse = Pick<
+  IngredientModel,
+  'id' & 'name' & 'calories' & 'proteins' & 'fats' & 'carbs'
+>;
+
+export type IngredientResponse = Pick<
+  IngredientModel,
+  'id' & 'name' & 'manufacturer' & 'calories' & 'proteins' & 'fats' & 'carbs'
+>;
+
 @Injectable()
 export class BackendIngredientService {
   constructor(private ps: PrismaService, private cls: BackendClsStoreService) {}
 
-  async list(): Promise<IngredientModel[]> {
-    return this.ps.ingredient.findMany();
-  }
-
-  async retrieve(ingredientId: string): Promise<IngredientModel | null> {
-    return this.ps.ingredient.findUnique({
-      where: {
-        id: ingredientId,
+  async list(): Promise<IngredientListResponse[]> {
+    return this.ps.ingredient.findMany({
+      select: {
+        id: true,
+        name: true,
+        calories: true,
+        proteins: true,
+        fats: true,
+        carbs: true,
       },
     });
   }
 
-  async retrieveByBarcode(barcode: number): Promise<IngredientModel | null> {
+  async retrieve(ingredientId: string): Promise<IngredientResponse | null> {
+    return this.ps.ingredient.findUnique({
+      where: {
+        id: ingredientId,
+      },
+      select: {
+        id: true,
+        name: true,
+        manufacturer: true,
+        calories: true,
+        proteins: true,
+        fats: true,
+        carbs: true,
+      },
+    });
+  }
+
+  async retrieveByBarcode(barcode: number): Promise<IngredientResponse | null> {
     return this.ps.ingredient.findUnique({
       where: { barcode },
+      select: {
+        id: true,
+        name: true,
+        manufacturer: true,
+        calories: true,
+        proteins: true,
+        fats: true,
+        carbs: true,
+      },
     });
   }
 
