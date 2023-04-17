@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { BackendUserService } from '@food-app/backend/features/user';
 import {
   SignInDto,
@@ -25,7 +29,7 @@ export class BackendAuthService {
       return this._generateTokens(user);
     }
 
-    return null;
+    throw new BadRequestException();
   }
 
   async validateUser(dto: SignInDto): Promise<ResponseTokens | null> {
@@ -35,7 +39,7 @@ export class BackendAuthService {
       return this._generateTokens(user);
     }
 
-    return null;
+    throw new NotFoundException();
   }
 
   async refreshTokens(dto: RefreshTokenDto): Promise<ResponseTokens | null> {
@@ -45,7 +49,7 @@ export class BackendAuthService {
       return this._generateTokens(user);
     }
 
-    return null;
+    throw new NotFoundException();
   }
 
   private async _generateTokens(
