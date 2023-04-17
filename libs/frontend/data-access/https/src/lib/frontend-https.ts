@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios';
 // FIXME: Can this import something break?
 import { HttpStatus } from '@nestjs/common';
 import { InternalAxiosRequestConfig } from 'axios/index';
+import { router, routes } from '@food-app/frontend/router';
 
 declare module 'axios/index' {
   interface InternalAxiosRequestConfig {
@@ -59,7 +60,7 @@ $api.interceptors.response.use(
       } else if (originalRequest && originalRequest._isRetry) {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        //   TODO: Implement redirect to sign in page
+        await router.navigate(routes.signIn());
       }
     }
 

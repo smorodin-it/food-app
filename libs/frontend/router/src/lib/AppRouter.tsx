@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { routes } from './routes';
-import { AppPage } from '../page/AppPage';
+import { AppPage } from '../../../../../apps/frontend/food-app/src/app/page/AppPage';
 import { SignInPage, SignInForm } from '@food-app/frontend/features/auth';
 
 export const router = createBrowserRouter([
