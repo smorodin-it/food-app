@@ -6,20 +6,14 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/backend/features/ingredient/**/*.ts"
-        ]
+        "lintFilePatterns": ["libs/backend/features/ingredient/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "libs/backend/features/ingredient/jest.config.ts",
         "passWithNoTests": true
@@ -32,8 +26,5 @@
       }
     }
   },
-  "tags": [
-    "scope:backend",
-    "type:feature"
-  ]
+  "tags": ["scope:backend", "type:feature"]
 }

@@ -1,10 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { routes } from './routes';
 import { AppPage } from '../page/AppPage';
-
-interface AppRouterProps {
-  a?: unknown;
-}
+import { SignInPage, SignInForm } from '@food-app/frontend/features/auth';
 
 export const router = createBrowserRouter([
   {
@@ -17,10 +14,14 @@ export const router = createBrowserRouter([
   },
   {
     path: routes.signIn(),
-    element: 'Sign In',
+    element: (
+      <SignInPage>
+        <SignInForm />
+      </SignInPage>
+    ),
   },
 ]);
 
-export const AppRouter = (props: AppRouterProps): JSX.Element => {
+export const AppRouter = (): JSX.Element => {
   return <RouterProvider router={router} />;
 };
