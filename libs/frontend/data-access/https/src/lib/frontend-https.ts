@@ -1,5 +1,4 @@
-import axios, { AxiosError, HttpStatusCode } from 'axios';
-// FIXME: Can this import something break?
+import axios, { HttpStatusCode } from 'axios';
 import { InternalAxiosRequestConfig } from 'axios/index';
 import {
   getFromLocalStorage,
@@ -20,7 +19,7 @@ export const $api = axios.create({
 });
 
 $api.interceptors.request.use((config) => {
-  const accessToken = getFromLocalStorage(LocalStorageFields.ACCESS_TOKEM);
+  const accessToken = getFromLocalStorage(LocalStorageFields.ACCESS_TOKEN);
 
   if (accessToken) {
     config.headers['Authorization'] = `Bearer ${accessToken}`;
@@ -32,10 +31,7 @@ $api.interceptors.request.use((config) => {
 $api.interceptors.response.use(
   (config) => config,
   async (error) => {
-    if (
-      error instanceof AxiosError &&
-      error.status === HttpStatusCode.Unauthorized
-    ) {
+    if (error.response.status === HttpStatusCode.Unauthorized) {
       const originalRequest: InternalAxiosRequestConfig | undefined =
         error.config;
 
@@ -51,11 +47,11 @@ $api.interceptors.response.use(
             const resp = await axios.post<{
               accessToken: string;
               refreshToken: string;
-            }>('http://localhost:3333/api', { refreshToken });
+            }>('http://localhost:3333/api/auth/refresh', { refreshToken });
 
             if (resp) {
               setToLocalStorage(
-                LocalStorageFields.ACCESS_TOKEM,
+                LocalStorageFields.ACCESS_TOKEN,
                 resp.data.accessToken
               );
               setToLocalStorage(
@@ -67,11 +63,9 @@ $api.interceptors.response.use(
             }
           }
         } catch (e) {
-          console.log(e);
+          removeFromLocalStorage(LocalStorageFields.ACCESS_TOKEN);
+          removeFromLocalStorage(LocalStorageFields.REFRESH_TOKEN);
         }
-      } else if (originalRequest && originalRequest._isRetry) {
-        removeFromLocalStorage(LocalStorageFields.ACCESS_TOKEM);
-        removeFromLocalStorage(LocalStorageFields.REFRESH_TOKEN);
       }
     }
 
