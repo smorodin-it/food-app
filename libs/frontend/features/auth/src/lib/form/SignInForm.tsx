@@ -21,7 +21,9 @@ export const SignInForm = (): JSX.Element => {
 
       if (resp) {
         AuthStore.processTokens(resp.data);
-        AuthStore.setAuth(true);
+        const bc = new BroadcastChannel('auth');
+        bc.postMessage('login');
+        bc.close();
       }
     },
   });

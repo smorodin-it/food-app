@@ -1,9 +1,12 @@
 import axios, { HttpStatusCode } from 'axios';
 import { InternalAxiosRequestConfig } from 'axios/index';
 import {
+  BroadcastAuthMessages,
+  BroadcastChannels,
   getFromLocalStorage,
   LocalStorageFields,
   removeFromLocalStorage,
+  sendBroadcastMessage,
   setToLocalStorage,
 } from '@food-app/frontend/utils';
 
@@ -65,6 +68,11 @@ $api.interceptors.response.use(
         } catch (e) {
           removeFromLocalStorage(LocalStorageFields.ACCESS_TOKEN);
           removeFromLocalStorage(LocalStorageFields.REFRESH_TOKEN);
+
+          sendBroadcastMessage(
+            BroadcastChannels.AUTH,
+            BroadcastAuthMessages.LOGOUT
+          );
         }
       }
     }
