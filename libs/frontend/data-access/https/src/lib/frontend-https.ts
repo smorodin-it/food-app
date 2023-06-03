@@ -73,7 +73,6 @@ $api.interceptors.response.use(
       } else if (originalRequest && originalRequest._isRetry) {
         removeFromLocalStorage(LocalStorageFields.ACCESS_TOKEM);
         removeFromLocalStorage(LocalStorageFields.REFRESH_TOKEN);
-        // await router.navigate(routes.signIn());
       }
     }
 
