@@ -26,7 +26,6 @@ export const SignInForm = (): JSX.Element => {
         console.log(resp);
         AuthStore.setAuth(true);
         AuthStore.processTokens(resp.data);
-        // TODO: Move router to separate lib
         navigate('/');
       }
     },

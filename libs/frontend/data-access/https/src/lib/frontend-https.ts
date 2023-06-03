@@ -1,6 +1,5 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, HttpStatusCode } from 'axios';
 // FIXME: Can this import something break?
-import { HttpStatus } from '@nestjs/common';
 import { InternalAxiosRequestConfig } from 'axios/index';
 import {
   getFromLocalStorage,
@@ -35,7 +34,7 @@ $api.interceptors.response.use(
   async (error) => {
     if (
       error instanceof AxiosError &&
-      error.status === HttpStatus.UNAUTHORIZED
+      error.status === HttpStatusCode.Unauthorized
     ) {
       const originalRequest: InternalAxiosRequestConfig | undefined =
         error.config;
