@@ -1,5 +1,10 @@
 import { makeAutoObservable } from 'mobx';
 import { TokenPayloadModel, TokensModel } from '../model/AuthModel';
+import {
+  LocalStorageFields,
+  removeFromLocalStorage,
+  setToLocalStorage,
+} from '@food-app/frontend/utils';
 
 class Auth {
   isAuth = false;
@@ -48,11 +53,11 @@ class Auth {
 
   private setTokensToLocalStorage(tokens: TokensModel | null): void {
     if (tokens) {
-      localStorage.setItem('accessToken', tokens.accessToken);
-      localStorage.setItem('refreshToken', tokens.refreshToken);
+      setToLocalStorage(LocalStorageFields.ACCESS_TOKEM, tokens.accessToken);
+      setToLocalStorage(LocalStorageFields.REFRESH_TOKEN, tokens.refreshToken);
     } else {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      removeFromLocalStorage(LocalStorageFields.ACCESS_TOKEM);
+      removeFromLocalStorage(LocalStorageFields.REFRESH_TOKEN);
     }
   }
 }
