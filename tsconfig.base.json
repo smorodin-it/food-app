@@ -35,7 +35,6 @@
       "@food-app/frontend/features/auth": [
         "libs/frontend/features/auth/src/index.ts"
       ],
-      "@food-app/frontend/router": ["libs/frontend/router/src/index.ts"],
       "@food-app/frontend/ui": ["libs/frontend/ui/src/index.ts"],
       "@food-app/frontend/utils": ["libs/frontend/utils/src/index.ts"]
     }
