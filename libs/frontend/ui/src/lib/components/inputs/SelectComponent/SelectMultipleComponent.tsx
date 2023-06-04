@@ -1,14 +1,15 @@
 import { MenuItem, SelectChangeEvent, TextField } from '@mui/material';
 import { SelectComponentGeneralProps } from './types';
+import { FC } from 'react';
 
 interface SelectMultipleComponentProps extends SelectComponentGeneralProps {
   value: string[] | number[];
   onChange: (event: SelectChangeEvent<unknown>) => void;
 }
 
-export const SelectMultipleComponent = (
-  props: SelectMultipleComponentProps
-): JSX.Element => {
+export const SelectMultipleComponent: FC<SelectMultipleComponentProps> = (
+  props
+) => {
   const { menuItems, value, onChange, ...rest } = props;
   return (
     <TextField

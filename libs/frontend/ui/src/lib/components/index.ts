@@ -1,5 +1,4 @@
 export * from './dev/FormikLogButton/FormikLogButton';
-export * from './Tabs';
-export * from './buttons/MenuButton/MenuButton';
+export * from './buttons';
 export * from './inputs';
 export * from './ModalComponent';

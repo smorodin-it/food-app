@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ReactNode } from 'react';
+import React, { ChangeEvent, FC, ReactNode } from 'react';
 import { EndAdornmentStyled } from './EndAdornmentStyled';
 import { TextField } from '@mui/material';
 import { TextFieldProps } from '@mui/material/TextField/TextField';
@@ -21,9 +21,7 @@ interface TextFieldWithCounterProps {
   autoFocus?: boolean;
 }
 
-export const TextFieldWithCounter = (
-  props: TextFieldWithCounterProps
-): JSX.Element => {
+export const TextFieldWithCounter: FC<TextFieldWithCounterProps> = (props) => {
   return (
     <TextField
       value={props.value}

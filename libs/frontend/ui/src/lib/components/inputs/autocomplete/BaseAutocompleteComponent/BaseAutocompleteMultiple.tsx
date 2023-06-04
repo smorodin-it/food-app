@@ -1,4 +1,4 @@
-import React, { ReactNode, SyntheticEvent } from 'react';
+import React, { ReactElement, ReactNode, SyntheticEvent } from 'react';
 import {
   Autocomplete,
   AutocompleteChangeReason,
@@ -22,7 +22,7 @@ interface BaseAutocompleteMultipleProps<T> extends BaseAutocompleteProps<T> {
 
 export function BaseAutocompleteMultiple<T extends Record<string, unknown>>(
   props: BaseAutocompleteMultipleProps<T>
-): JSX.Element {
+): ReactElement {
   const handleGetValue = (): T[] | undefined => {
     if (props.value) {
       return props.options.filter((option) =>
@@ -97,7 +97,7 @@ export function BaseAutocompleteMultiple<T extends Record<string, unknown>>(
       )}
       renderOption={(renderProps, option) =>
         props.renderOption ? (
-          props.renderOption(renderProps, option)
+          props.renderOption(renderProps as Record<string, unknown>, option)
         ) : (
           <li
             {...renderProps}

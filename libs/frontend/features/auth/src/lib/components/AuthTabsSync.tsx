@@ -5,10 +5,10 @@ import {
   routes,
 } from '@food-app/frontend/utils';
 import { AuthStore } from '@food-app/frontend/data-access/auth';
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-export const AuthTabsSync = (): JSX.Element => {
+export const AuthTabsSync: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 

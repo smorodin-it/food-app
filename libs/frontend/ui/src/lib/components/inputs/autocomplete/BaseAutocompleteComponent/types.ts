@@ -9,8 +9,12 @@ export interface BaseAutocompleteProps<T> {
   options: NonNullable<T>[];
   fieldWithLabel: string;
   getOptionLabel?: (option: T) => string;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  renderOption?: (props: Object, option: T, state?: Object) => ReactNode;
+
+  renderOption?: (
+    props: Record<string, unknown>,
+    option: T,
+    state?: Record<string, unknown>
+  ) => ReactNode;
   groupBy?: (option: T) => string;
   uniqueIdentifierField?: keyof T;
   inputValue?: string;

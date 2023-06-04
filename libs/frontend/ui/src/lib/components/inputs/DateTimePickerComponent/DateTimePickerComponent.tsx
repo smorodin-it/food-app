@@ -1,6 +1,6 @@
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { TextField } from '@mui/material';
-import { ReactNode, useState } from 'react';
+import { FC, ReactNode, useState } from 'react';
 import { formatISO, isValid } from 'date-fns';
 
 interface DatepickerComponentProps {
@@ -19,9 +19,9 @@ interface DatepickerComponentProps {
   disabled?: boolean;
 }
 
-export const DateTimePickerComponent = (
-  props: DatepickerComponentProps
-): JSX.Element => {
+export const DateTimePickerComponent: FC<DatepickerComponentProps> = (
+  props
+) => {
   const [open, setOpen] = useState(false);
 
   const handleChange = (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, ReactElement } from 'react';
 import {
   DialogActions,
   DialogContent,
@@ -11,11 +11,11 @@ import { ModalDialogStyled } from './styles/ModalDialogStyled';
 
 interface ModalProps extends DialogProps {
   handleClose?: () => void;
-  buttonsCollection?: JSX.Element[] | JSX.Element;
+  buttonsCollection?: ReactElement[] | ReactElement;
   title?: string;
 }
 
-export const Modal = (props: ModalProps): JSX.Element => {
+export const Modal: FC<ModalProps> = (props) => {
   return (
     <ModalDialogStyled
       maxWidth={props.maxWidth}

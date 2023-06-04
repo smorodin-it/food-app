@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 import { Button, Switch, Tooltip } from '@mui/material';
 import { Modal } from './Modal';
 
@@ -10,12 +10,12 @@ interface ModalSwitchConfirmationComponentProps {
   status: boolean;
   disabled?: boolean;
   confirmButtonText?: string;
-  icon?: JSX.Element;
+  icon?: ReactElement;
 }
 
-export const ModalSwitchConfirmationComponent = (
-  props: ModalSwitchConfirmationComponentProps
-): JSX.Element => {
+export const ModalSwitchConfirmationComponent: FC<
+  ModalSwitchConfirmationComponentProps
+> = (props) => {
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
 

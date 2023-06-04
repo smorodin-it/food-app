@@ -4,7 +4,7 @@ import {
   FormControlLabel,
   FormHelperText,
 } from '@mui/material';
-import { ChangeEvent, ReactNode } from 'react';
+import { ChangeEvent, FC, ReactNode } from 'react';
 import { FormControlLabelProps } from '@mui/material/FormControlLabel/FormControlLabel';
 
 interface CheckboxComponentProps {
@@ -20,9 +20,7 @@ interface CheckboxComponentProps {
   labelPlacement?: FormControlLabelProps['labelPlacement'];
 }
 
-export const CheckboxComponent = (
-  props: CheckboxComponentProps
-): JSX.Element => {
+export const CheckboxComponent: FC<CheckboxComponentProps> = (props) => {
   return (
     <FormControl
       required={props.required}

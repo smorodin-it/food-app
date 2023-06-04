@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import AppLayout from '../layout/AppLayout/AppLayout';
 import AppSideBarLayout from '../layout/AppLayout/AppSideBarLayout';
@@ -7,7 +7,7 @@ import AppAreaLayout from '../layout/AppLayout/AppAreaLayout';
 import { Button } from '@mui/material';
 import { $api } from '@food-app/frontend/data-access/https';
 
-export const AppPage = (): JSX.Element => {
+export const AppPage: FC = () => {
   const [data, setData] = useState<any[]>([]);
 
   const handleClick = async (): Promise<void> => {

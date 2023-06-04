@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 import { Button, Tooltip } from '@mui/material';
 import { Modal } from './Modal';
 
@@ -9,13 +9,13 @@ interface ModalConfirmationComponentProps {
   actionButtonText: string;
   confirmCallback: () => Promise<void> | void;
   confirmButtonText?: string;
-  icon?: JSX.Element;
+  icon?: ReactElement;
   disabled?: boolean;
 }
 
-export const ModalConfirmationComponent = (
-  props: ModalConfirmationComponentProps
-): JSX.Element => {
+export const ModalConfirmationComponent: FC<ModalConfirmationComponentProps> = (
+  props
+) => {
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
 

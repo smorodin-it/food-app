@@ -1,5 +1,5 @@
 import { MenuItem, TextField } from '@mui/material';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, FC } from 'react';
 import { SelectComponentGeneralProps } from './types';
 
 interface SelectProps {
@@ -13,7 +13,7 @@ export interface SelectComponentProps extends SelectComponentGeneralProps {
   SelectProps?: SelectProps;
 }
 
-export const SelectComponent = (props: SelectComponentProps): JSX.Element => {
+export const SelectComponent: FC<SelectComponentProps> = (props) => {
   const { menuItems, onChange, onChangeCallback, ...rest } = props;
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

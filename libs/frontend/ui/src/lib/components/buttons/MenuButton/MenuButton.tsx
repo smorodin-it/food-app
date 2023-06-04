@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, MouseEvent } from 'react';
+import React, { ReactNode, useState, MouseEvent, FC } from 'react';
 import {
   Box,
   Button,
@@ -25,7 +25,7 @@ interface MenuButtonProps {
   marginTop?: string | number;
 }
 
-export const MenuButton = (props: MenuButtonProps): JSX.Element => {
+export const MenuButton: FC<MenuButtonProps> = (props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handleMenuOpen = (event: MouseEvent<HTMLElement>): void => {

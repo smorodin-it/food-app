@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Button } from '@mui/material';
 import { useFormikContext } from 'formik';
 
@@ -8,7 +8,7 @@ interface FormikLogButtonProps {
   values?: boolean;
 }
 
-export const FormikLogButton = (props: FormikLogButtonProps): JSX.Element => {
+export const FormikLogButton: FC<FormikLogButtonProps> = (props) => {
   const formik = useFormikContext();
 
   const handleClick = (): void => {

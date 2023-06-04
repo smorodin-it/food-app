@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 import { Button, Tooltip } from '@mui/material';
 import { Modal } from './Modal';
 
 interface DocumentTypeAddModalProps {
   title: string;
   tooltipText: string;
-  children: JSX.Element;
-  icon?: JSX.Element;
+  children: ReactElement;
+  icon?: ReactElement;
   disabled?: boolean;
 }
 
-export const ModalComponent = (
-  props: DocumentTypeAddModalProps
-): JSX.Element => {
+export const ModalComponent: FC<DocumentTypeAddModalProps> = (props) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = (): void => {
@@ -24,7 +22,7 @@ export const ModalComponent = (
   };
 
   // Clone children element and add isModal and close handler props
-  const ChildrenComponent: () => JSX.Element = () =>
+  const ChildrenComponent: () => ReactElement = () =>
     React.cloneElement(props.children, {
       handleModalClose: handleClose,
     });

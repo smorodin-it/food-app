@@ -13,8 +13,9 @@ import {
   BroadcastChannels,
   sendBroadcastMessage,
 } from '@food-app/frontend/utils';
+import { FC } from 'react';
 
-export const SignInForm = (): JSX.Element => {
+export const SignInForm: FC = () => {
   const formik = useFormik<SignInModel>({
     initialValues: getSignInFormInitialObject(),
     validationSchema: getSignInFormValidationSchema(),

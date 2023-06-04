@@ -12,6 +12,7 @@ import {
 } from '@food-app/frontend/features/auth';
 import { routes } from '@food-app/frontend/utils';
 import { AuthTabsSync } from '@food-app/frontend/features/auth';
+import { FC } from 'react';
 
 export const router = createBrowserRouter(
   createRoutesFromElements([
@@ -37,6 +38,6 @@ export const router = createBrowserRouter(
   ])
 );
 
-export const AppRouter = (): JSX.Element => {
+export const AppRouter: FC = () => {
   return <RouterProvider router={router} />;
 };

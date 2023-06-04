@@ -1,4 +1,4 @@
-import React, { ReactNode, SyntheticEvent } from 'react';
+import React, { ReactElement, ReactNode, SyntheticEvent } from 'react';
 import {
   Autocomplete,
   AutocompleteChangeReason,
@@ -16,7 +16,7 @@ interface BaseAutocompleteSingleProps<T> extends BaseAutocompleteProps<T> {
 
 export function BaseAutocompleteSingle<T extends MinimalAutocompleteDataOption>(
   props: BaseAutocompleteSingleProps<T>
-): JSX.Element {
+): ReactElement {
   const handleGetValue = (): NonNullable<T> | undefined => {
     if (props.value) {
       return props.options.find(
@@ -43,6 +43,7 @@ export function BaseAutocompleteSingle<T extends MinimalAutocompleteDataOption>(
       options={props.options}
       onFocus={props.onFocus}
       // FIXME: Can't set value to null and disable clearable to true.
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       value={handleGetValue(props.value, props.options) ?? null}
       onChange={handleChange}
@@ -85,7 +86,7 @@ export function BaseAutocompleteSingle<T extends MinimalAutocompleteDataOption>(
       )}
       renderOption={(renderProps, option) =>
         props.renderOption ? (
-          props.renderOption(renderProps, option)
+          props.renderOption(renderProps as Record<string, unknown>, option)
         ) : (
           <li
             {...renderProps}
