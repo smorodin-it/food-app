@@ -8,11 +8,13 @@ import { getSignInFormInitialObject } from '../utils/functions';
 import { getSignInFormValidationSchema } from '../utils/formikValidation';
 import { Button, Stack } from '@mui/material';
 import { SignInFormFields } from './SignInFormFields';
-import { useNavigate } from 'react-router-dom';
+import {
+  BroadcastAuthMessages,
+  BroadcastChannels,
+  sendBroadcastMessage,
+} from '@food-app/frontend/utils';
 
 export const SignInForm = (): JSX.Element => {
-  const navigate = useNavigate();
-
   const formik = useFormik<SignInModel>({
     initialValues: getSignInFormInitialObject(),
     validationSchema: getSignInFormValidationSchema(),
@@ -23,10 +25,11 @@ export const SignInForm = (): JSX.Element => {
       });
 
       if (resp) {
-        console.log(resp);
-        AuthStore.setAuth(true);
         AuthStore.processTokens(resp.data);
-        navigate('/');
+        sendBroadcastMessage(
+          BroadcastChannels.AUTH,
+          BroadcastAuthMessages.LOGIN
+        );
       }
     },
   });

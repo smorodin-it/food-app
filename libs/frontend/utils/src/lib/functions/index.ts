@@ -1,15 +1,37 @@
-import { LocalStorageFields } from '../constants';
+import {
+  BroadcastAuthMessages,
+  BroadcastChannels,
+  LocalStorageFields,
+} from '../constants';
 
 export const getFromLocalStorage = (field: LocalStorageFields): string | null =>
   localStorage.getItem(field);
 
 export const setToLocalStorage = (
-  field: LocalStorageFields,
-  data: string
+  key: LocalStorageFields,
+  newValue: string
 ): void => {
-  localStorage.setItem(field, data);
+  localStorage.setItem(key, newValue);
 };
 
-export const removeFromLocalStorage = (field: LocalStorageFields): void => {
-  localStorage.removeItem(field);
+export const removeFromLocalStorage = (key: LocalStorageFields): void => {
+  localStorage.removeItem(key);
+};
+
+export const isHaveTokens = (): boolean =>
+  !!(
+    getFromLocalStorage(LocalStorageFields.ACCESS_TOKEN) &&
+    getFromLocalStorage(LocalStorageFields.REFRESH_TOKEN)
+  );
+
+type BCMessages = BroadcastAuthMessages;
+
+export const sendBroadcastMessage = (
+  channel: BroadcastChannels,
+  message: BCMessages
+): void => {
+  console.log(channel, message);
+  const bc = new BroadcastChannel(channel);
+  bc.postMessage(message);
+  bc.close();
 };
