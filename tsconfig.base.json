@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@food-app/backend/cls-store": ["libs/backend/cls-store/src/index.ts"],
+      "@food-app/backend/core": ["libs/backend/core/src/index.ts"],
       "@food-app/backend/features/auth": [
         "libs/backend/features/auth/src/index.ts"
       ],

@@ -7,6 +7,8 @@ import {
   Patch,
   Post,
   Put,
+  Query,
+  ValidationPipe,
 } from '@nestjs/common';
 import {
   BackendIngredientService,
@@ -17,14 +19,24 @@ import {
   IngredientCreateUpdateDto,
   IsDeletedDto,
 } from './backend-ingredient.dto';
+import { PaginationQueryDto, ResponsePaginated } from '@food-app/backend/core';
 
 @Controller('ingredient')
 export class BackendIngredientController {
   constructor(private is: BackendIngredientService) {}
 
   @Get('/')
-  async list(): Promise<IngredientListResponse[]> {
-    return this.is.list();
+  async list(
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        transformOptions: { enableImplicitConversion: true },
+        forbidNonWhitelisted: true,
+      })
+    )
+    query: PaginationQueryDto
+  ): Promise<ResponsePaginated<IngredientListResponse>> {
+    return this.is.list(query);
   }
 
   @Post('/')

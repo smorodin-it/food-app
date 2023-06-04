@@ -16,7 +16,7 @@ import { BackendJwtAuthGuard } from './backend-jwt-auth.guard';
       global: true,
       secret: JwtConstants.secret,
       signOptions: {
-        expiresIn: '2s',
+        expiresIn: '60s',
       },
     }),
   ],
