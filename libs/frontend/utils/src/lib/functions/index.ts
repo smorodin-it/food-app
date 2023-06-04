@@ -30,6 +30,7 @@ export const sendBroadcastMessage = (
   channel: BroadcastChannels,
   message: BCMessages
 ): void => {
+  console.log(channel, message);
   const bc = new BroadcastChannel(channel);
   bc.postMessage(message);
   bc.close();

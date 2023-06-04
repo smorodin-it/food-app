@@ -8,6 +8,11 @@ import { getSignInFormInitialObject } from '../utils/functions';
 import { getSignInFormValidationSchema } from '../utils/formikValidation';
 import { Button, Stack } from '@mui/material';
 import { SignInFormFields } from './SignInFormFields';
+import {
+  BroadcastAuthMessages,
+  BroadcastChannels,
+  sendBroadcastMessage,
+} from '@food-app/frontend/utils';
 
 export const SignInForm = (): JSX.Element => {
   const formik = useFormik<SignInModel>({
@@ -21,9 +26,10 @@ export const SignInForm = (): JSX.Element => {
 
       if (resp) {
         AuthStore.processTokens(resp.data);
-        const bc = new BroadcastChannel('auth');
-        bc.postMessage('login');
-        bc.close();
+        sendBroadcastMessage(
+          BroadcastChannels.AUTH,
+          BroadcastAuthMessages.LOGIN
+        );
       }
     },
   });
