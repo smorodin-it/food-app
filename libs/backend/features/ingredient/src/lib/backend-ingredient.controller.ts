@@ -8,7 +8,6 @@ import {
   Post,
   Put,
   Query,
-  ValidationPipe,
 } from '@nestjs/common';
 import {
   BackendIngredientService,
@@ -27,13 +26,7 @@ export class BackendIngredientController {
 
   @Get('/')
   async list(
-    @Query(
-      new ValidationPipe({
-        transform: true,
-        transformOptions: { enableImplicitConversion: true },
-        forbidNonWhitelisted: true,
-      })
-    )
+    @Query()
     query: PaginationQueryDto
   ): Promise<ResponsePaginated<IngredientListResponse>> {
     return this.is.list(query);
