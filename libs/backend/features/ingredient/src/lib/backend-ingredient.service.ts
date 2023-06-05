@@ -13,12 +13,12 @@ import { calculatePaginationData } from '@food-app/backend/core';
 
 export type IngredientListResponse = Pick<
   IngredientModel,
-  'id' & 'name' & 'calories' & 'proteins' & 'fats' & 'carbs'
+  'id' | 'name' | 'calories' | 'proteins' | 'fats' | 'carbs'
 >;
 
 export type IngredientResponse = Pick<
   IngredientModel,
-  'id' & 'name' & 'manufacturer' & 'calories' & 'proteins' & 'fats' & 'carbs'
+  'id' | 'name' | 'manufacturer' | 'calories' | 'proteins' | 'fats' | 'carbs'
 >;
 
 @Injectable()
