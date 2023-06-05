@@ -27,6 +27,7 @@
         "libs/backend/features/user/src/index.ts"
       ],
       "@food-app/backend/orm": ["libs/backend/orm/src/index.ts"],
+      "@food-app/core": ["libs/core/src/index.ts"],
       "@food-app/frontend/data-access/auth": [
         "libs/frontend/data-access/auth/src/index.ts"
       ],
