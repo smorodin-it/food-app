@@ -1,12 +1,16 @@
 import { PaginationQueryModel } from '../models/QueryModel';
-import { IsNumberString, IsOptional } from 'class-validator';
+import { IsNumber, IsPositive } from 'class-validator';
+import { Type } from 'class-transformer';
+import { BackendCoreConstants } from '../constants/constants';
 
 export class PaginationQueryDto implements PaginationQueryModel {
-  @IsNumberString()
-  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @IsPositive()
   page = 1;
 
-  @IsNumberString()
-  @IsOptional()
-  perPage = 10;
+  @Type(() => Number)
+  @IsNumber()
+  @IsPositive()
+  perPage = BackendCoreConstants.DefaultPerPage;
 }
