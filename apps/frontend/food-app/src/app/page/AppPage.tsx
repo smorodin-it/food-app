@@ -6,9 +6,14 @@ import { AppTopBarLayout } from '../layout/AppLayout/AppTopBarLayout';
 import { AppAreaLayout } from '../layout/AppLayout/AppAreaLayout';
 import { useWindowSize } from '@food-app/frontend/utils';
 import { AppBarComponent, MediaMinWidthConstants } from '@food-app/frontend/ui';
+import { NavigationMenuItems } from '../constants/menuItems';
 
 export const AppPage: FC = () => {
   const { width } = useWindowSize();
+
+  const itemsWithAccess = NavigationMenuItems.filter(
+    (menuItem) => menuItem.access
+  );
 
   return (
     <AppLayout>
@@ -19,7 +24,7 @@ export const AppPage: FC = () => {
       {/* Show topbar if screen lt laptop */}
       {width < MediaMinWidthConstants.LAPTOP && (
         <AppTopBarLayout>
-          <AppBarComponent title={'Food App'} />
+          <AppBarComponent menuItems={itemsWithAccess} title={'Food App'} />
         </AppTopBarLayout>
       )}
       <AppAreaLayout>
