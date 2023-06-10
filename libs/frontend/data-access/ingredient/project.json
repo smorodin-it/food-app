@@ -1,0 +1,34 @@
+{
+  "name": "frontend-data-access-ingredient",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/frontend/data-access/ingredient/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/frontend/data-access/ingredient",
+        "main": "libs/frontend/data-access/ingredient/src/index.ts",
+        "tsConfig": "libs/frontend/data-access/ingredient/tsconfig.lib.json",
+        "assets": ["libs/frontend/data-access/ingredient/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/frontend/data-access/ingredient/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["coverage/libs/frontend/data-access/ingredient"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../../../coverage/libs/frontend/data-access/ingredient"
+      }
+    }
+  },
+  "tags": ["scope:frontend", "type:data-access"]
+}

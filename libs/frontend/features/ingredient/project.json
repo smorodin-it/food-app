@@ -1,0 +1,26 @@
+{
+  "name": "frontend-features-ingredient",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/frontend/features/ingredient/src",
+  "projectType": "library",
+  "tags": ["type:feature", "scope:frontend"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/features/ingredient/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["coverage/libs/frontend/features/ingredient"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../../../coverage/libs/frontend/features/ingredient"
+      }
+    }
+  }
+}

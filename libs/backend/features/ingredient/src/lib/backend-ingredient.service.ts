@@ -8,23 +8,30 @@ import {
   IsDeletedDto,
 } from './backend-ingredient.dto';
 import { BackendClsStoreService } from '@food-app/backend/cls-store';
+import { ResponsePaginated, PaginationQueryDto } from '@food-app/backend/core';
+import { calculatePaginationData } from '@food-app/backend/core';
 
 export type IngredientListResponse = Pick<
   IngredientModel,
-  'id' & 'name' & 'calories' & 'proteins' & 'fats' & 'carbs'
+  'id' | 'name' | 'calories' | 'proteins' | 'fats' | 'carbs'
 >;
 
 export type IngredientResponse = Pick<
   IngredientModel,
-  'id' & 'name' & 'manufacturer' & 'calories' & 'proteins' & 'fats' & 'carbs'
+  'id' | 'name' | 'manufacturer' | 'calories' | 'proteins' | 'fats' | 'carbs'
 >;
 
 @Injectable()
 export class BackendIngredientService {
   constructor(private ps: PrismaService, private cls: BackendClsStoreService) {}
 
-  async list(): Promise<IngredientListResponse[]> {
-    return this.ps.ingredient.findMany({
+  async list(
+    query: PaginationQueryDto
+  ): Promise<ResponsePaginated<IngredientListResponse>> {
+    console.log(query);
+    const total = await this.ps.ingredient.count();
+    const ingredients = await this.ps.ingredient.findMany({
+      ...calculatePaginationData(query, total),
       select: {
         id: true,
         name: true,
@@ -34,6 +41,8 @@ export class BackendIngredientService {
         carbs: true,
       },
     });
+
+    return { list: ingredients, total };
   }
 
   async retrieve(ingredientId: string): Promise<IngredientResponse | null> {
