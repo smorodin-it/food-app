@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const AppSideBarLayout = styled.div`
+export const AppSideBarLayout = styled.div`
   grid-area: SideBarArea;
 
   overflow: auto;
@@ -11,7 +11,5 @@ const AppSideBarLayout = styled.div`
 
   padding: 1.6rem;
 
-  border: 1px red solid;
+  border: 0.1rem red solid;
 `;
-
-export default AppSideBarLayout;
