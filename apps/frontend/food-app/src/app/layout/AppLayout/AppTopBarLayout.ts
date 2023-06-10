@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const AppTopBarLayout = styled.div`
+export const AppTopBarLayout = styled.div`
   grid-area: TopArea;
 
   display: flex;
@@ -10,7 +10,5 @@ const AppTopBarLayout = styled.div`
 
   padding: 1.6rem;
 
-  border: 1px green solid;
+  border: 0.1rem green solid;
 `;
-
-export default AppTopBarLayout;

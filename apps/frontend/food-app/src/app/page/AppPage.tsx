@@ -1,14 +1,17 @@
 import React, { FC, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import AppLayout from '../layout/AppLayout/AppLayout';
-import AppSideBarLayout from '../layout/AppLayout/AppSideBarLayout';
-import AppTopBarLayout from '../layout/AppLayout/AppTopBarLayout';
-import AppAreaLayout from '../layout/AppLayout/AppAreaLayout';
+import { AppLayout } from '../layout/AppLayout/AppLayout';
+import { AppSideBarLayout } from '../layout/AppLayout/AppSideBarLayout';
+import { AppTopBarLayout } from '../layout/AppLayout/AppTopBarLayout';
+import { AppAreaLayout } from '../layout/AppLayout/AppAreaLayout';
 import { Button } from '@mui/material';
 import { $api } from '@food-app/frontend/data-access/https';
+import { useWindowSize } from '@food-app/frontend/utils';
+import { MediaMinWidthConstants } from '@food-app/frontend/ui';
 
 export const AppPage: FC = () => {
   const [data, setData] = useState<any[]>([]);
+  const { width } = useWindowSize();
 
   const handleClick = async (): Promise<void> => {
     try {
@@ -24,8 +27,12 @@ export const AppPage: FC = () => {
 
   return (
     <AppLayout>
-      <AppSideBarLayout>Sidebar</AppSideBarLayout>
-      <AppTopBarLayout>Top bar</AppTopBarLayout>
+      {width >= MediaMinWidthConstants.laptop && (
+        <AppSideBarLayout>Sidebar</AppSideBarLayout>
+      )}
+      {width < MediaMinWidthConstants.laptop && (
+        <AppTopBarLayout>Top bar</AppTopBarLayout>
+      )}
       <AppAreaLayout>
         <Outlet />
         <Button onClick={handleClick}>Get data</Button>
