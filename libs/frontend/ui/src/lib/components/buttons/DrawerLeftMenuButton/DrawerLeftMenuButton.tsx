@@ -1,24 +1,14 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Divider,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  SxProps,
-  Theme,
-} from '@mui/material';
-import { Inbox, Mail, Menu } from '@mui/icons-material';
+import { FC, useState } from 'react';
+import { Box, Drawer, IconButton, SxProps, Theme } from '@mui/material';
+import { Menu } from '@mui/icons-material';
+import { NavigationMenu, NavigationMenuObjectsListRO } from '../../menu';
 
 interface DrawerLeftMenuButtonProps {
+  menuItems: NavigationMenuObjectsListRO;
   sx: SxProps<Theme>;
 }
 
-export const DrawerLeftMenuButton = (props: DrawerLeftMenuButtonProps) => {
+export const DrawerLeftMenuButton: FC<DrawerLeftMenuButtonProps> = (props) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleMenuClick = (): void => {
@@ -42,31 +32,7 @@ export const DrawerLeftMenuButton = (props: DrawerLeftMenuButtonProps) => {
       </IconButton>
       <Drawer anchor={'left'} open={drawerOpen} onClose={handleDrawerClose}>
         <Box sx={{ minWidth: '23rem' }}>
-          <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <Inbox /> : <Mail />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <Inbox /> : <Mail />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
+          <NavigationMenu menuItems={props.menuItems} />
         </Box>
       </Drawer>
     </Box>
