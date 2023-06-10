@@ -8,8 +8,9 @@ import {
   IsDeletedDto,
 } from './backend-ingredient.dto';
 import { BackendClsStoreService } from '@food-app/backend/cls-store';
-import { ResponsePaginated, PaginationQueryDto } from '@food-app/backend/core';
+import { PaginationQueryDto } from '@food-app/backend/core';
 import { calculatePaginationData } from '@food-app/backend/core';
+import { ResponsePaginated } from '@food-app/core';
 
 export type IngredientListResponse = Pick<
   IngredientModel,
@@ -28,7 +29,6 @@ export class BackendIngredientService {
   async list(
     query: PaginationQueryDto
   ): Promise<ResponsePaginated<IngredientListResponse>> {
-    console.log(query);
     const total = await this.ps.ingredient.count();
     const ingredients = await this.ps.ingredient.findMany({
       ...calculatePaginationData(query, total),

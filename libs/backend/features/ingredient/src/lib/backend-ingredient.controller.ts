@@ -18,7 +18,8 @@ import {
   IngredientCreateUpdateDto,
   IsDeletedDto,
 } from './backend-ingredient.dto';
-import { PaginationQueryDto, ResponsePaginated } from '@food-app/backend/core';
+import { PaginationQueryDto } from '@food-app/backend/core';
+import { ResponsePaginated } from '@food-app/core';
 
 @Controller('ingredient')
 export class BackendIngredientController {
