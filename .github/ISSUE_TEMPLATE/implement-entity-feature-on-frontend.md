@@ -16,6 +16,7 @@ assignees: smorodin-it
     - [ ] List
     - [ ] Retrieve
     - [ ] Create\update
+    - [ ] Delete\restore
 - [ ]  Add store
 ---
 - [ ] List view
