@@ -1,1 +1,1 @@
-export * from './lib/FrontendFeaturesIngredient';
+export * from './lib/components/IngredientModule';
