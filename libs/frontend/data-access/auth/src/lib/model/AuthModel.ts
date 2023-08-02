@@ -1,19 +1,29 @@
-export interface TokensModel {
-  accessToken: string;
-  refreshToken: string;
-}
+import { z } from 'zod';
 
-export interface SignInModel {
-  email: string;
-  password: string;
-}
+export const tokensSchema = z.object({
+  accessToken: z.string(),
+  refreshToken: z.string().uuid(),
+});
 
-export interface RefreshToken {
-  refreshToken: string;
-}
+export type TokensModel = z.infer<typeof tokensSchema>;
 
-export interface TokenPayloadModel {
-  id: string;
-  iat: number;
-  exp: number;
-}
+export const signInSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+
+export type SignInModel = z.infer<typeof signInSchema>;
+
+export const refreshTokenSchema = z.object({
+  refreshToken: z.string().uuid(),
+});
+
+export type RefreshTokenModel = z.infer<typeof refreshTokenSchema>;
+
+export const tokenPayloadSchema = z.object({
+  id: z.string().uuid(),
+  iat: z.number(),
+  exp: z.number(),
+});
+
+export type TokenPayloadModel = z.infer<typeof tokenPayloadSchema>;

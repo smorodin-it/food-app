@@ -2,6 +2,7 @@ import {
   AuthService,
   AuthStore,
   SignInModel,
+  signInSchema,
 } from '@food-app/frontend/data-access/auth';
 import { getSignInFormInitialObject } from '../utils/functions';
 import { Button, Stack } from '@mui/material';
@@ -13,10 +14,12 @@ import {
 } from '@food-app/frontend/utils';
 import { FC } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export const SignInForm: FC = () => {
   const methods = useForm<SignInModel>({
     defaultValues: getSignInFormInitialObject(),
+    resolver: zodResolver(signInSchema),
   });
 
   const onSubmit: SubmitHandler<SignInModel> = async (data) => {

@@ -13,13 +13,25 @@ export const TextFieldFormComponent: FC<TextFieldFormComponentProps> = (
 ) => {
   const { name, ...rest } = props;
 
-  const { control } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
+  const error = errors[name];
 
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field }) => <TextField {...rest} {...field} />}
+      render={({ field }) => (
+        <TextField
+          {...rest}
+          {...field}
+          error={Boolean(error)}
+          helperText={error?.message && String(error?.message)}
+        />
+      )}
     />
   );
 };
