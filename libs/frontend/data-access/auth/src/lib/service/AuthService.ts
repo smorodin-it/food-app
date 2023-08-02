@@ -1,5 +1,9 @@
 import { AxiosResponse } from 'axios';
-import { RefreshToken, SignInModel, TokensModel } from '../model/AuthModel';
+import {
+  RefreshTokenModel,
+  SignInModel,
+  TokensModel,
+} from '../model/AuthModel';
 import { $api } from '@food-app/frontend/data-access/https';
 
 export class AuthService {
@@ -10,7 +14,7 @@ export class AuthService {
   }
 
   static refreshTokens(
-    submitObject: RefreshToken
+    submitObject: RefreshTokenModel
   ): Promise<AxiosResponse<TokensModel>> {
     return $api.post<TokensModel>('/auth/refresh', submitObject);
   }

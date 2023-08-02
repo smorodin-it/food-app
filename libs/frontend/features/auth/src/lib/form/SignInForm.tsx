@@ -1,11 +1,10 @@
-import { Form, FormikProvider, useFormik } from 'formik';
 import {
   AuthService,
   AuthStore,
   SignInModel,
+  signInSchema,
 } from '@food-app/frontend/data-access/auth';
 import { getSignInFormInitialObject } from '../utils/functions';
-import { getSignInFormValidationSchema } from '../utils/formikValidation';
 import { Button, Stack } from '@mui/material';
 import { SignInFormFields } from './SignInFormFields';
 import {
@@ -14,37 +13,37 @@ import {
   sendBroadcastMessage,
 } from '@food-app/frontend/utils';
 import { FC } from 'react';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export const SignInForm: FC = () => {
-  const formik = useFormik<SignInModel>({
-    initialValues: getSignInFormInitialObject(),
-    validationSchema: getSignInFormValidationSchema(),
-    onSubmit: async (values) => {
-      const resp = await AuthService.signIn({
-        email: values.email,
-        password: values.password,
-      });
-
-      if (resp) {
-        AuthStore.processTokens(resp.data);
-        sendBroadcastMessage(
-          BroadcastChannels.AUTH,
-          BroadcastAuthMessages.LOGIN
-        );
-      }
-    },
+  const methods = useForm<SignInModel>({
+    defaultValues: getSignInFormInitialObject(),
+    resolver: zodResolver(signInSchema),
   });
 
+  const onSubmit: SubmitHandler<SignInModel> = async (data) => {
+    const resp = await AuthService.signIn({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (resp) {
+      AuthStore.processTokens(resp.data);
+      sendBroadcastMessage(BroadcastChannels.AUTH, BroadcastAuthMessages.LOGIN);
+    }
+  };
+
   return (
-    <FormikProvider value={formik}>
-      <Form>
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
         <Stack>
           <SignInFormFields />
           <Stack>
-            <Button onClick={() => formik.handleSubmit()}>Sign In</Button>
+            <Button type={'submit'}>Sign In</Button>
           </Stack>
         </Stack>
-      </Form>
-    </FormikProvider>
+      </form>
+    </FormProvider>
   );
 };

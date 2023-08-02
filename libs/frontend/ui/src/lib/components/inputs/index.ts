@@ -3,3 +3,4 @@ export * from './CheckboxComponent/CheckboxComponent';
 export * from './DatePickerComponent/DatePickerComponent';
 export * from './DateTimePickerComponent/DateTimePickerComponent';
 export * from './SelectComponent';
+export * from './TextFieldFormComponent';

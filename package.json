@@ -11,10 +11,15 @@
     "@nestjs/testing": "9.4.2",
     "@nx/cypress": "16.3.2",
     "@nx/eslint-plugin": "16.3.2",
+    "@nx/jest": "16.3.2",
     "@nx/js": "16.3.2",
     "@nx/linter": "16.3.2",
+    "@nx/nest": "16.3.2",
+    "@nx/node": "16.3.2",
+    "@nx/plugin": "16.3.2",
     "@nx/react": "16.3.2",
     "@nx/vite": "16.3.2",
+    "@nx/webpack": "16.3.2",
     "@nx/workspace": "16.3.2",
     "@swc/core": "^1.2.173",
     "@testing-library/react": "14.0.0",
@@ -52,16 +57,12 @@
     "vite": "4.3.9",
     "vite-plugin-eslint": "^1.8.1",
     "vite-tsconfig-paths": "4.2.0",
-    "vitest": "0.31.4",
-    "@nx/nest": "16.3.2",
-    "@nx/plugin": "16.3.2",
-    "@nx/jest": "16.3.2",
-    "@nx/node": "16.3.2",
-    "@nx/webpack": "16.3.2"
+    "vitest": "0.31.4"
   },
   "dependencies": {
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
+    "@hookform/resolvers": "^3.1.1",
     "@mui/base": "5.0.0-alpha.125",
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "5.0.0-alpha.126",
@@ -80,7 +81,6 @@
     "class-validator": "^0.14.0",
     "date-fns": "^2.29.3",
     "express": "^4.18.2",
-    "formik": "^2.2.9",
     "mobx": "^6.9.0",
     "mobx-react-lite": "^3.4.3",
     "nestjs-cls": "^3.3.1",
@@ -89,11 +89,12 @@
     "passport-local": "^1.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.45.2",
     "react-imask": "^6.6.2",
     "react-router-dom": "6.11.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "tslib": "^2.3.0",
-    "yup": "^1.1.1"
+    "zod": "^3.21.4"
   }
 }
