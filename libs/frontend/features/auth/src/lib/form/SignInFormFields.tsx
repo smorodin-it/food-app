@@ -1,11 +1,15 @@
-import { TextField } from '@mui/material';
 import { FC } from 'react';
+import { TextFieldFormComponent } from '@food-app/frontend/ui';
 
 export const SignInFormFields: FC = () => {
   return (
     <>
-      <TextField label={'Email'} />
-      <TextField label={'Password'} type={'password'} />
+      <TextFieldFormComponent label={'Email'} name={'email'} />
+      <TextFieldFormComponent
+        label={'Password'}
+        name={'password'}
+        type={'password'}
+      />
     </>
   );
 };
