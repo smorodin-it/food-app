@@ -3,3 +3,4 @@ export * from './inputs';
 export * from './ModalComponent';
 export * from './AppBarComponent';
 export * from './menu';
+export * from './tables';

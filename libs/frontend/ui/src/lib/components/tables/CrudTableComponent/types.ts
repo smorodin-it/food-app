@@ -16,7 +16,7 @@ interface Action<DataModel extends MinimalDataModel> {
    * Компонент кнопки
    */
   renderComponent: (
-    object?: Action<DataModel>['type'] extends 'add' ? never : DataModel
+    object?: Action<DataModel>['type'] extends 'top' ? never : DataModel
   ) => ReactNode;
 
   /**
@@ -52,6 +52,8 @@ export interface CrudTableSettings<DataModel extends MinimalDataModel> {
 }
 
 export interface CrudTableProps<DataModel extends MinimalDataModel> {
+  currentPage: number;
+
   /**
    * Настройки таблицы
    */
@@ -97,7 +99,4 @@ export interface CrudTableProps<DataModel extends MinimalDataModel> {
    * Добавить колонку с нумирацией строк
    */
   addNumberingColumn?: boolean;
-
-  // customFilter?: JSX.Element;
-  currentPage: number;
 }
