@@ -27,7 +27,7 @@ export const CrudTableComponent = observer(function CrudTableComponent<
   const renderActionAddComponent = (): ReactNode[] | void => {
     const addComponent = props.settings.actions.filter(
       (action) =>
-        action.type === CRUD_TABLE_ACTIONS.ADD &&
+        action.type === CRUD_TABLE_ACTIONS.TOP &&
         (typeof action.access === 'undefined' ? true : action.access)
     );
 
@@ -39,7 +39,11 @@ export const CrudTableComponent = observer(function CrudTableComponent<
   const renderActionsCellComponents = (object: DataModel): ReactNode[] => {
     const componentsArray: ReactNode[] = [];
     props.settings.actions.forEach((action) => {
-      if (action?.renderComponent && action.type !== CRUD_TABLE_ACTIONS.ADD) {
+      if (
+        action?.renderComponent &&
+        action.type !== CRUD_TABLE_ACTIONS.TOP &&
+        (typeof action.access === 'undefined' ? true : action.access)
+      ) {
         componentsArray.push(action.renderComponent(object));
       }
     });
@@ -49,14 +53,10 @@ export const CrudTableComponent = observer(function CrudTableComponent<
 
   // Table rows & fields generation functions
 
-  const getDataObjectFields = (): (keyof DataModel)[] => {
-    return props.settings.fields.map((field) => field.name);
-  };
-
   const allActionsList = props.settings.actions.map((action) => action.type);
 
   const actionsInCell = allActionsList.filter(
-    (action) => action !== CRUD_TABLE_ACTIONS.ADD
+    (action) => action !== CRUD_TABLE_ACTIONS.TOP
   );
 
   const haveOneOfCellActions = allActionsList.some((v) =>
@@ -80,20 +80,18 @@ export const CrudTableComponent = observer(function CrudTableComponent<
   };
 
   const getRowsData = (): JSX.Element[] => {
-    const fields = getDataObjectFields();
+    const fields = props.settings.fields;
 
     return props.storeData.list.map((row, index) => (
       <TableRow key={row.id}>
         {fields.map((field, idx) => (
-          <Fragment key={field as string}>
+          <Fragment key={field.header as string}>
             {props.addNumberingColumn && idx === 0 && (
               <TableCell>
                 {index + 1 + rowsPerPage * (props.currentPage - 1)}
               </TableCell>
             )}
-            <TableCell>
-              {props.settings.fields[idx].render(props.storeData.list[index])}
-            </TableCell>
+            <TableCell>{field.render(props.storeData.list[index])}</TableCell>
             {haveOneOfCellActions && idx === fields.length - 1 && (
               <TableCell>
                 <Stack flexDirection={'row'}>

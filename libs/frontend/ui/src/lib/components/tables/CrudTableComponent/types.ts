@@ -33,11 +33,6 @@ interface Field<DataModel extends MinimalDataModel> {
   header: string;
 
   /**
-   * Название поля в котором данные возвращаются с API
-   */
-  name: keyof DataModel | '';
-
-  /**
    * Функиця которая отрисовывает элемент в ячейке таблицы
    * @param object - Объект с данными который возвращает API
    */

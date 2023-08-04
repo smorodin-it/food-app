@@ -6,10 +6,8 @@ export const paginationDefaultSettings = {
 };
 
 export const CRUD_TABLE_ACTIONS = {
-  ADD: 'add',
-  EDIT: 'edit',
-  DELETE: 'delete',
-  DETAILS: 'details',
+  TOP: 'top',
+  CELL: 'cell',
 } as const;
 
 export type CrudTableActionsType = ObjectValue<typeof CRUD_TABLE_ACTIONS>;
