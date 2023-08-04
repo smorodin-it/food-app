@@ -1,4 +1,4 @@
-import React, { Fragment, ReactElement } from 'react';
+import React, { Fragment, ReactElement, ReactNode } from 'react';
 import { CrudTableProps, MinimalDataModel } from './types';
 import Paper from '@mui/material/Paper';
 import TableContainer from '@mui/material/TableContainer';
@@ -8,7 +8,7 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import { observer } from 'mobx-react-lite';
-import { paginationDefaultSettings } from './constants';
+import { CRUD_TABLE_ACTIONS, paginationDefaultSettings } from './constants';
 import { Pagination, Stack } from '@mui/material';
 import { LinearLoaderCentered } from '../../loaders/LinearLoaderCentered/LinearLoaderCentered';
 
@@ -18,42 +18,29 @@ export const CrudTableComponent = observer(function CrudTableComponent<
   const rowsPerPage = props.perPage ?? paginationDefaultSettings.ROWS_PER_PAGE;
 
   // Pagination functions
-  const handleChangePage = async (event: unknown, newPage: number) => {
+  const handleChangePage = async (_: unknown, newPage: number) => {
     if (props.handlePaginationChange) {
       props.handlePaginationChange(newPage);
     }
   };
 
-  const renderActionAddComponent = (): ReactElement | void => {
-    const addComponent = props.settings.actions.find(
-      (action) => action.type === 'add'
+  const renderActionAddComponent = (): ReactNode[] | void => {
+    const addComponent = props.settings.actions.filter(
+      (action) =>
+        action.type === CRUD_TABLE_ACTIONS.ADD &&
+        (typeof action.access === 'undefined' ? true : action.access)
     );
 
-    if (addComponent?.renderAddComponent) {
-      return addComponent.renderAddComponent();
+    if (addComponent) {
+      return addComponent.map((action) => action.renderComponent());
     }
   };
 
-  const renderActionsCellComponents = (object: DataModel): ReactElement[] => {
-    const componentsArray = [] as ReactElement[];
+  const renderActionsCellComponents = (object: DataModel): ReactNode[] => {
+    const componentsArray: ReactNode[] = [];
     props.settings.actions.forEach((action) => {
-      if (action?.renderRowComponent) {
-        switch (action.type) {
-          case 'edit':
-            componentsArray.push(action.renderRowComponent(object));
-            break;
-
-          case 'details':
-            componentsArray.push(action.renderRowComponent(object));
-            break;
-
-          case 'delete':
-            componentsArray.push(action.renderRowComponent(object));
-            break;
-
-          default:
-            return;
-        }
+      if (action?.renderComponent && action.type !== CRUD_TABLE_ACTIONS.ADD) {
+        componentsArray.push(action.renderComponent(object));
       }
     });
 
@@ -67,7 +54,11 @@ export const CrudTableComponent = observer(function CrudTableComponent<
   };
 
   const allActionsList = props.settings.actions.map((action) => action.type);
-  const actionsInCell = ['edit', 'delete', 'details'];
+
+  const actionsInCell = allActionsList.filter(
+    (action) => action !== CRUD_TABLE_ACTIONS.ADD
+  );
+
   const haveOneOfCellActions = allActionsList.some((v) =>
     actionsInCell.includes(v)
   );
@@ -123,11 +114,11 @@ export const CrudTableComponent = observer(function CrudTableComponent<
           {renderActionAddComponent()}
           {props.withPagination && (
             <Pagination
-              count={Math.ceil(props.storeData.total / rowsPerPage)}
-              page={props.currentPage}
-              onChange={handleChangePage}
               boundaryCount={5}
               color={'primary'}
+              count={Math.ceil(props.storeData.total / rowsPerPage)}
+              onChange={handleChangePage}
+              page={props.currentPage}
             />
           )}
         </>
@@ -143,17 +134,6 @@ export const CrudTableComponent = observer(function CrudTableComponent<
           {props.loading && <LinearLoaderCentered />}
         </>
       </TableContainer>
-      {props.withBottomPagination && (
-        <Stack flexDirection={'row'} justifyContent={'flex-end'}>
-          <Pagination
-            count={Math.ceil(props.storeData.total / rowsPerPage)}
-            page={props.currentPage}
-            onChange={handleChangePage}
-            boundaryCount={5}
-            color={'primary'}
-          />
-        </Stack>
-      )}
     </Stack>
   );
 });

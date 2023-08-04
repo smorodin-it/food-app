@@ -1,28 +1,32 @@
 import { ResponsePaginated } from '@food-app/core';
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
+import { CrudTableActionsType } from './constants';
 
 export interface MinimalDataModel extends Record<string, unknown> {
   id: string;
 }
 
-interface Action<DataModel> {
+interface Action<DataModel extends MinimalDataModel> {
   /**
    * Типы действий (добавляют нужные кнопки/компоненты)
    */
-  type: 'add' | 'edit' | 'delete' | 'details' | string;
+  type: CrudTableActionsType | (string & NonNullable<unknown>);
 
   /**
    * Компонент кнопки
    */
-  renderRowComponent?: (object: DataModel) => ReactElement;
+  renderComponent: (
+    object?: Action<DataModel>['type'] extends 'add' ? never : DataModel
+  ) => ReactNode;
 
   /**
-   * Компонент кнопки
+   * Проверяет есть ли доступ к этому действию у пользователя.
+   * @default true
    */
-  renderAddComponent?: () => ReactElement;
+  access?: boolean;
 }
 
-interface Field<DataModel> {
+interface Field<DataModel extends MinimalDataModel> {
   /**
    * Заголовок колонки в таблице
    */
@@ -40,7 +44,7 @@ interface Field<DataModel> {
   render: (object: DataModel) => ReactElement;
 }
 
-export interface CrudTableSettings<DataModel> {
+export interface CrudTableSettings<DataModel extends MinimalDataModel> {
   /**
    * Дейсвия которые можно осуществлять с данными в таблице (добавление, редактирование, детальный просмотр, удаление)
    */
@@ -75,19 +79,9 @@ export interface CrudTableProps<DataModel extends MinimalDataModel> {
   storeFieldWithData?: string;
 
   /**
-   * Отображать фильтр? Если включен, нужно передать компоненту объект настроек в props filterSettings
-   */
-  withFilter?: boolean;
-
-  /**
    * Отображать пагинацию?
    */
   withPagination?: boolean;
-
-  /**
-   * Отображать нижнюю пагинацию?
-   */
-  withBottomPagination?: boolean;
 
   /**
    * Количество записей на странице
@@ -109,6 +103,6 @@ export interface CrudTableProps<DataModel extends MinimalDataModel> {
    */
   addNumberingColumn?: boolean;
 
-  customFilter?: JSX.Element;
+  // customFilter?: JSX.Element;
   currentPage: number;
 }
