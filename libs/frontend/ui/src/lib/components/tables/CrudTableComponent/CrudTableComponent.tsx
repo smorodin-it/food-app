@@ -1,4 +1,4 @@
-import React, { Fragment, ReactElement } from 'react';
+import React, { Fragment, ReactElement, ReactNode } from 'react';
 import { CrudTableProps, MinimalDataModel } from './types';
 import Paper from '@mui/material/Paper';
 import TableContainer from '@mui/material/TableContainer';
@@ -8,7 +8,7 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import { observer } from 'mobx-react-lite';
-import { paginationDefaultSettings } from './constants';
+import { CRUD_TABLE_ACTIONS, paginationDefaultSettings } from './constants';
 import { Pagination, Stack } from '@mui/material';
 import { LinearLoaderCentered } from '../../loaders/LinearLoaderCentered/LinearLoaderCentered';
 
@@ -18,56 +18,46 @@ export const CrudTableComponent = observer(function CrudTableComponent<
   const rowsPerPage = props.perPage ?? paginationDefaultSettings.ROWS_PER_PAGE;
 
   // Pagination functions
-  const handleChangePage = async (event: unknown, newPage: number) => {
+  const handleChangePage = async (_: unknown, newPage: number) => {
     if (props.handlePaginationChange) {
       props.handlePaginationChange(newPage);
     }
   };
 
-  const renderActionAddComponent = (): ReactElement | void => {
-    const addComponent = props.settings.actions.find(
-      (action) => action.type === 'add'
-    );
+  const renderActionAddComponent = (): ReactNode[] => {
+    return props.settings.actions.reduce<ReactNode[]>((result, action) => {
+      if (
+        action.type === CRUD_TABLE_ACTIONS.TOP &&
+        (typeof action.access === 'undefined' ? true : action.access)
+      ) {
+        result.push(action.renderComponent());
+      }
 
-    if (addComponent?.renderAddComponent) {
-      return addComponent.renderAddComponent();
-    }
+      return result;
+    }, []);
   };
 
-  const renderActionsCellComponents = (object: DataModel): ReactElement[] => {
-    const componentsArray = [] as ReactElement[];
-    props.settings.actions.forEach((action) => {
-      if (action?.renderRowComponent) {
-        switch (action.type) {
-          case 'edit':
-            componentsArray.push(action.renderRowComponent(object));
-            break;
-
-          case 'details':
-            componentsArray.push(action.renderRowComponent(object));
-            break;
-
-          case 'delete':
-            componentsArray.push(action.renderRowComponent(object));
-            break;
-
-          default:
-            return;
-        }
+  const renderActionsCellComponents = (object: DataModel): ReactNode[] => {
+    return props.settings.actions.reduce<ReactNode[]>((result, action) => {
+      if (
+        action?.renderComponent &&
+        action.type !== CRUD_TABLE_ACTIONS.TOP &&
+        (typeof action.access === 'undefined' ? true : action.access)
+      ) {
+        result.push(action.renderComponent(object));
       }
-    });
-
-    return componentsArray;
+      return result;
+    }, []);
   };
 
   // Table rows & fields generation functions
 
-  const getDataObjectFields = (): (keyof DataModel)[] => {
-    return props.settings.fields.map((field) => field.name);
-  };
-
   const allActionsList = props.settings.actions.map((action) => action.type);
-  const actionsInCell = ['edit', 'delete', 'details'];
+
+  const actionsInCell = allActionsList.filter(
+    (action) => action !== CRUD_TABLE_ACTIONS.TOP
+  );
+
   const haveOneOfCellActions = allActionsList.some((v) =>
     actionsInCell.includes(v)
   );
@@ -89,20 +79,18 @@ export const CrudTableComponent = observer(function CrudTableComponent<
   };
 
   const getRowsData = (): JSX.Element[] => {
-    const fields = getDataObjectFields();
+    const fields = props.settings.fields;
 
     return props.storeData.list.map((row, index) => (
       <TableRow key={row.id}>
         {fields.map((field, idx) => (
-          <Fragment key={field as string}>
+          <Fragment key={field.header as string}>
             {props.addNumberingColumn && idx === 0 && (
               <TableCell>
                 {index + 1 + rowsPerPage * (props.currentPage - 1)}
               </TableCell>
             )}
-            <TableCell>
-              {props.settings.fields[idx].render(props.storeData.list[index])}
-            </TableCell>
+            <TableCell>{field.render(props.storeData.list[index])}</TableCell>
             {haveOneOfCellActions && idx === fields.length - 1 && (
               <TableCell>
                 <Stack flexDirection={'row'}>
@@ -123,11 +111,11 @@ export const CrudTableComponent = observer(function CrudTableComponent<
           {renderActionAddComponent()}
           {props.withPagination && (
             <Pagination
-              count={Math.ceil(props.storeData.total / rowsPerPage)}
-              page={props.currentPage}
-              onChange={handleChangePage}
               boundaryCount={5}
               color={'primary'}
+              count={Math.ceil(props.storeData.total / rowsPerPage)}
+              onChange={handleChangePage}
+              page={props.currentPage}
             />
           )}
         </>
@@ -143,17 +131,6 @@ export const CrudTableComponent = observer(function CrudTableComponent<
           {props.loading && <LinearLoaderCentered />}
         </>
       </TableContainer>
-      {props.withBottomPagination && (
-        <Stack flexDirection={'row'} justifyContent={'flex-end'}>
-          <Pagination
-            count={Math.ceil(props.storeData.total / rowsPerPage)}
-            page={props.currentPage}
-            onChange={handleChangePage}
-            boundaryCount={5}
-            color={'primary'}
-          />
-        </Stack>
-      )}
     </Stack>
   );
 });
