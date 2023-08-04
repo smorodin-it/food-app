@@ -24,31 +24,30 @@ export const CrudTableComponent = observer(function CrudTableComponent<
     }
   };
 
-  const renderActionAddComponent = (): ReactNode[] | void => {
-    const addComponent = props.settings.actions.filter(
-      (action) =>
+  const renderActionAddComponent = (): ReactNode[] => {
+    return props.settings.actions.reduce<ReactNode[]>((result, action) => {
+      if (
         action.type === CRUD_TABLE_ACTIONS.TOP &&
         (typeof action.access === 'undefined' ? true : action.access)
-    );
+      ) {
+        result.push(action.renderComponent());
+      }
 
-    if (addComponent) {
-      return addComponent.map((action) => action.renderComponent());
-    }
+      return result;
+    }, []);
   };
 
   const renderActionsCellComponents = (object: DataModel): ReactNode[] => {
-    const componentsArray: ReactNode[] = [];
-    props.settings.actions.forEach((action) => {
+    return props.settings.actions.reduce<ReactNode[]>((result, action) => {
       if (
         action?.renderComponent &&
         action.type !== CRUD_TABLE_ACTIONS.TOP &&
         (typeof action.access === 'undefined' ? true : action.access)
       ) {
-        componentsArray.push(action.renderComponent(object));
+        result.push(action.renderComponent(object));
       }
-    });
-
-    return componentsArray;
+      return result;
+    }, []);
   };
 
   // Table rows & fields generation functions
