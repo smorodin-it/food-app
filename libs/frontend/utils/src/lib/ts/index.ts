@@ -15,3 +15,5 @@ export type NestedKeyOf<T extends Record<string, any>> = keyof {
         (string | number | boolean)}`
     : never]: any;
 };
+
+export type ObjectValue<T> = T[keyof T];
