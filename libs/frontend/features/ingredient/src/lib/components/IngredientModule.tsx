@@ -1,19 +1,15 @@
-import { useEffect } from 'react';
-import {
-  CRUD_TABLE_ACTIONS,
-  CrudTableComponent,
-  CrudTableSettings,
-} from '@food-app/frontend/ui';
+import { useCallback, useEffect } from 'react';
+import { CRUD_TABLE_ACTIONS, CrudTableComponent } from '@food-app/frontend/ui';
+import { CrudTableSettings } from '@food-app/frontend/ui';
 
 export const IngredientModule = (): JSX.Element => {
-  const getData = async () => {
-    // const resp = .
-    return;
-  };
+  const getData = useCallback(async (test: string) => {
+    console.log(test);
+  }, []);
 
   useEffect(() => {
-    getData();
-  }, []);
+    getData('asd');
+  }, [getData]);
 
   const crudTableSettings: CrudTableSettings<{ id: string }> = {
     actions: [
