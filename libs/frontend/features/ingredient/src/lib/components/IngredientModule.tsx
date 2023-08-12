@@ -1,5 +1,9 @@
 import { useCallback, useEffect } from 'react';
-import { CRUD_TABLE_ACTIONS, CrudTableComponent } from '@food-app/frontend/ui';
+import {
+  ButtonLinkComponent,
+  CRUD_TABLE_ACTIONS,
+  CrudTableComponent,
+} from '@food-app/frontend/ui';
 import { CrudTableSettings } from '@food-app/frontend/ui';
 
 export const IngredientModule = (): JSX.Element => {
@@ -16,7 +20,7 @@ export const IngredientModule = (): JSX.Element => {
       {
         type: CRUD_TABLE_ACTIONS.TOP,
         renderComponent: () => {
-          return <span>top action</span>;
+          return <ButtonLinkComponent buttonText={'Add'} to={'/'} />;
         },
       },
       {
@@ -38,7 +42,7 @@ export const IngredientModule = (): JSX.Element => {
         },
       },
     ],
-    fields: [],
+    fields: [{ header: 'test', render: (object) => 'test' }],
   };
 
   return (

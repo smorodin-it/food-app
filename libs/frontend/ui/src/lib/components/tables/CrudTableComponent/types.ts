@@ -1,5 +1,5 @@
 import { ResponsePaginated } from '@food-app/core';
-import { ReactElement, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { CrudTableActionsType } from './constants';
 
 export interface MinimalDataModel extends Record<string, unknown> {
@@ -36,7 +36,7 @@ interface Field<DataModel extends MinimalDataModel> {
    * Функиця которая отрисовывает элемент в ячейке таблицы
    * @param object - Объект с данными который возвращает API
    */
-  render: (object: DataModel) => ReactElement;
+  render: (object: DataModel) => ReactNode;
 }
 
 export interface CrudTableSettings<DataModel extends MinimalDataModel> {
