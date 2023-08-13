@@ -49,7 +49,14 @@ export const theme = createTheme({
     },
     MuiStack: {
       defaultProps: {
+        alignItems: 'flex-start',
         gap: '1.6rem',
+        width: '100%',
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        fullWidth: true,
       },
     },
   },

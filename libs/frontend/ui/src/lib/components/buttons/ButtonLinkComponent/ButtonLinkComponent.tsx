@@ -1,6 +1,7 @@
 import Button from '@mui/material/Button';
 import { Tooltip } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { FC } from 'react';
 
 interface ButtonLinkComponentProps {
   buttonText: string;
@@ -9,9 +10,7 @@ interface ButtonLinkComponentProps {
   tooltipText?: string;
 }
 
-export const ButtonLinkComponent = (
-  props: ButtonLinkComponentProps
-): JSX.Element => {
+export const ButtonLinkComponent: FC<ButtonLinkComponentProps> = (props) => {
   const button = (
     <Button component={Link} to={props.to} disabled={props.disabled}>
       {props.buttonText}

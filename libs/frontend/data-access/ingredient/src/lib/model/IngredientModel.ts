@@ -1,27 +1,38 @@
-export interface IngredientListModel extends Record<string, unknown> {
-  id: string;
-  name: string;
-  proteins: number;
-  carbs: number;
-  fats: number;
-  calories: number;
-}
+import { z } from 'zod';
 
-export interface IngredientModel {
-  id: string;
-  name: string;
-  manufacturer: string;
-  proteins: number;
-  carbs: number;
-  fats: number;
-  calories: number;
-}
+export const ingredientListModelSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  proteins: z.number(),
+  carbs: z.number(),
+  fats: z.number(),
+  calories: z.number(),
+});
 
-export interface IngredientAddEditModel {
-  name: string;
-  manufacturer: string;
-  proteins: number;
-  carbs: number;
-  fats: number;
-  calories: number;
-}
+export type IngredientListModel = z.infer<typeof ingredientListModelSchema>;
+
+export const ingredientModelSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  manufacturer: z.string(),
+  proteins: z.number(),
+  carbs: z.number(),
+  fats: z.number(),
+  calories: z.number(),
+});
+
+export type IngredientModel = z.infer<typeof ingredientModelSchema>;
+
+export const ingredientAddEditModelSchema = z.object({
+  barcode: z.coerce.number(),
+  name: z.string(),
+  manufacturer: z.string(),
+  proteins: z.coerce.number(),
+  carbs: z.coerce.number(),
+  fats: z.coerce.number(),
+  calories: z.coerce.number(),
+});
+
+export type IngredientAddEditModel = z.infer<
+  typeof ingredientAddEditModelSchema
+>;

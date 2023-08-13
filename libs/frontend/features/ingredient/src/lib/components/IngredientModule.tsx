@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import {
   ButtonLinkComponent,
   CRUD_TABLE_ACTIONS,
   CrudTableComponent,
 } from '@food-app/frontend/ui';
 import { CrudTableSettings } from '@food-app/frontend/ui';
-import { useApiHook } from '@food-app/frontend/utils';
+import { routes, useApiHook } from '@food-app/frontend/utils';
 import {
   IngredientListModel,
   IngredientService,
@@ -14,7 +14,7 @@ import {
 import { ResponsePaginated } from '@food-app/core';
 import { observer } from 'mobx-react-lite';
 
-export const IngredientModule = observer((): JSX.Element => {
+export const IngredientModule: FC = observer(() => {
   const [loading, setLoading] = useState(true);
 
   const { handleRequest: list } = useApiHook<
@@ -52,7 +52,12 @@ export const IngredientModule = observer((): JSX.Element => {
       {
         type: CRUD_TABLE_ACTIONS.TOP,
         renderComponent: () => {
-          return <ButtonLinkComponent buttonText={'Add'} to={'/'} />;
+          return (
+            <ButtonLinkComponent
+              buttonText={'Add'}
+              to={routes.ingredients.create()}
+            />
+          );
         },
       },
       {

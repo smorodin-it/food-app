@@ -1,16 +1,18 @@
-import Button from '@mui/material/Button';
+import Button, { ButtonProps } from '@mui/material/Button';
 import { Tooltip } from '@mui/material';
+import { FC } from 'react';
 
 interface ButtonComponentProps {
   buttonText: string;
-  onClick: () => void;
-  disabled?: boolean;
   tooltipText?: string;
+  disabled?: boolean;
+  onClick?: () => void;
+  type?: ButtonProps['type'];
 }
 
-export const ButtonComponent = (props: ButtonComponentProps): JSX.Element => {
+export const ButtonComponent: FC<ButtonComponentProps> = (props) => {
   const button = (
-    <Button onClick={props.onClick} disabled={props.disabled}>
+    <Button type={props.type} onClick={props.onClick} disabled={props.disabled}>
       {props.buttonText}
     </Button>
   );
