@@ -24,13 +24,15 @@ export const IngredientAddForm: FC = () => {
     resolver: zodResolver(ingredientAddEditModelSchema),
   });
 
-  const controllerRef = useRef(new AbortController());
+  const controllerRef = useRef<AbortController | null>(null);
 
   const onSubmit: SubmitHandler<IngredientAddEditModel> = async (
     data
   ): Promise<void> => {
+    controllerRef.current = new AbortController();
+
     const resp = await create(() =>
-      IngredientService.create(data, controllerRef.current)
+      IngredientService.create(data, controllerRef.current!)
     );
 
     if (resp) {
@@ -40,7 +42,8 @@ export const IngredientAddForm: FC = () => {
 
   useEffect(() => {
     return () => {
-      controllerRef.current.abort();
+      controllerRef.current?.abort();
+      controllerRef.current = null;
     };
   }, []);
 
