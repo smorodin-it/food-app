@@ -1,8 +1,8 @@
 import { ResponsePaginated } from '@food-app/core';
-import { IngredientListModel } from '../model/IngredientModel';
+import { IngredientListModel } from '../model';
 import { makeAutoObservable } from 'mobx';
 
-export class Ingredient {
+class Ingredient {
   data: ResponsePaginated<IngredientListModel> = {
     list: [],
     total: 0,
@@ -23,3 +23,5 @@ export class Ingredient {
     });
   }
 }
+
+export const IngredientStore = new Ingredient();

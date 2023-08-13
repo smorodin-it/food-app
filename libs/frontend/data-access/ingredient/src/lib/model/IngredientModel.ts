@@ -1,4 +1,4 @@
-export interface IngredientListModel {
+export interface IngredientListModel extends Record<string, unknown> {
   id: string;
   name: string;
   proteins: number;

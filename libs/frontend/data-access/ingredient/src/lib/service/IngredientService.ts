@@ -4,7 +4,7 @@ import {
   IngredientAddEditModel,
   IngredientListModel,
   IngredientModel,
-} from '../model/IngredientModel';
+} from '../model';
 import {
   RequestIsDeletedModel,
   ResponseAdd,
@@ -13,41 +13,53 @@ import {
 } from '@food-app/core';
 
 export class IngredientService {
-  static async list(): Promise<
-    AxiosResponse<ResponsePaginated<IngredientListModel>>
-  > {
-    return $api.get<ResponsePaginated<IngredientListModel>>('/ingredient');
+  static async list(
+    controller: AbortController
+  ): Promise<AxiosResponse<ResponsePaginated<IngredientListModel>>> {
+    return $api.get<ResponsePaginated<IngredientListModel>>('/ingredient', {
+      signal: controller.signal,
+    });
   }
 
   static async retrieve(
-    ingredientId: string
+    ingredientId: string,
+    controller: AbortController
   ): Promise<AxiosResponse<IngredientModel>> {
-    return $api.get<IngredientModel>(`/ingredient/${ingredientId}`);
+    return $api.get<IngredientModel>(`/ingredient/${ingredientId}`, {
+      signal: controller.signal,
+    });
   }
 
   static async create(
-    submitObject: IngredientAddEditModel
+    submitObject: IngredientAddEditModel,
+    controller: AbortController
   ): Promise<AxiosResponse<ResponseAdd>> {
-    return $api.post<ResponseAdd>('/ingredient', submitObject);
+    return $api.post<ResponseAdd>('/ingredient', submitObject, {
+      signal: controller.signal,
+    });
   }
 
   static async update(
     ingredientId: string,
-    submitObject: IngredientAddEditModel
+    submitObject: IngredientAddEditModel,
+    controller: AbortController
   ): Promise<AxiosResponse<ResponseStatus>> {
     return $api.put<ResponseStatus>(
       `/ingredient/${ingredientId}`,
-      submitObject
+      submitObject,
+      { signal: controller.signal }
     );
   }
 
   static async delete(
     ingredientId: string,
-    submitObject: RequestIsDeletedModel
+    submitObject: RequestIsDeletedModel,
+    controller: AbortController
   ): Promise<AxiosResponse<ResponseStatus>> {
     return $api.patch<ResponseStatus>(
       `/ingredient/delete/${ingredientId}`,
-      submitObject
+      submitObject,
+      { signal: controller.signal }
     );
   }
 }

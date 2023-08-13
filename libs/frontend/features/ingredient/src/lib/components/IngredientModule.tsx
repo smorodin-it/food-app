@@ -1,21 +1,46 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   ButtonLinkComponent,
   CRUD_TABLE_ACTIONS,
   CrudTableComponent,
 } from '@food-app/frontend/ui';
 import { CrudTableSettings } from '@food-app/frontend/ui';
+import { useApiHook } from '@food-app/frontend/utils';
+import {
+  IngredientListModel,
+  IngredientService,
+  IngredientStore,
+} from '@food-app/frontend/data-access/ingredient';
+import { ResponsePaginated } from '@food-app/core';
+import { observer } from 'mobx-react-lite';
 
-export const IngredientModule = (): JSX.Element => {
-  const getData = useCallback(async (test: string) => {
-    console.log(test);
-  }, []);
+export const IngredientModule = observer((): JSX.Element => {
+  const [loading, setLoading] = useState(true);
+
+  const { handleRequest: list } = useApiHook<
+    ResponsePaginated<IngredientListModel>
+  >({ rejectMessage: 'Ошибка при получении списка ингридиентов' });
+
+  const getData = useCallback(async () => {
+    setLoading(true);
+
+    const resp = await list((controller) => IngredientService.list(controller));
+
+    if (resp) {
+      IngredientStore.initData(resp);
+      setLoading(false);
+    }
+  }, [list]);
 
   useEffect(() => {
-    getData('asd');
+    getData();
+
+    return () => {
+      IngredientStore.clear();
+    };
   }, [getData]);
 
-  const crudTableSettings: CrudTableSettings<{ id: string }> = {
+  const crudTableSettings: CrudTableSettings<IngredientListModel> = {
     actions: [
       {
         type: CRUD_TABLE_ACTIONS.TOP,
@@ -26,33 +51,35 @@ export const IngredientModule = (): JSX.Element => {
       {
         type: CRUD_TABLE_ACTIONS.CELL,
         renderComponent: (object) => {
-          return <span>cell action</span>;
+          return (
+            <ButtonLinkComponent buttonText={'Edit'} to={`/${object?.id}`} />
+          );
         },
       },
       {
         type: CRUD_TABLE_ACTIONS.CELL,
         renderComponent: (object) => {
-          return <span>cell action</span>;
-        },
-      },
-      {
-        type: CRUD_TABLE_ACTIONS.CELL,
-        renderComponent: (object) => {
-          return <span>cell action</span>;
+          return (
+            <ButtonLinkComponent buttonText={'Delete'} to={`/${object?.id}`} />
+          );
         },
       },
     ],
-    fields: [{ header: 'test', render: (object) => 'test' }],
+    fields: [
+      { header: 'Name', render: (object) => object.name },
+      { header: 'Calories', render: (object) => object.calories },
+      { header: 'Proteins', render: (object) => object.proteins },
+      { header: 'Fats', render: (object) => object.fats },
+      { header: 'Carbs', render: (object) => object.carbs },
+    ],
   };
 
   return (
     <CrudTableComponent
       settings={crudTableSettings}
-      storeData={{
-        list: [],
-        total: 0,
-      }}
+      loading={loading}
+      storeData={IngredientStore.data}
       currentPage={1}
     />
   );
-};
+});
