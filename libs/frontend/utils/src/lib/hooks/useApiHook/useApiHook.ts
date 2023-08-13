@@ -14,7 +14,9 @@ export function useApiHook<
   }
 ): UseApiHiikReturnType<ResponseDataType, SubmitObjectType> {
   const { enqueueSnackbar } = useSnackbar();
-  const controllerRef = useRef(new AbortController());
+  // const controllerRef = useRef<AbortController | null>(null);
+  // const controllerRef = useMemo(() => new AbortController(), []);
+  // const controllerRef = new AbortController();
 
   const msg = useMemo(() => {
     return {
@@ -23,18 +25,18 @@ export function useApiHook<
     };
   }, [messages.rejectMessage, messages.resolveMessage]);
 
-  useEffect(() => {
-    return () => {
-      controllerRef.current.abort();
-    };
-  }, []);
+  // useEffect(() => {
+  //   console.log('useApiHook mounted');
+  //   return () => {
+  //     console.log('useApiHook unmounted');
+  //     controllerRef.abort();
+  //   };
+  // }, []);
 
   const handleRequest = useCallback(
     async <T>(request: AxiosRequest<T>, submitObject?: SubmitObjectType) => {
       try {
-        const resp: AxiosResponse<T> | void = await request(
-          controllerRef.current
-        );
+        const resp: AxiosResponse<T> | void = await request();
 
         if (resp.data) {
           if (msg.resolveMessage && typeof msg.resolveMessage === 'string') {
@@ -55,7 +57,7 @@ export function useApiHook<
         if (
           error &&
           error instanceof AxiosError &&
-          error.code === 'ECONNABORTED'
+          (error.code === 'ECONNABORTED' || error.code === 'ERR_CANCELED')
         ) {
           return;
         }

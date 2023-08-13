@@ -21,21 +21,28 @@ export const IngredientModule = observer((): JSX.Element => {
     ResponsePaginated<IngredientListModel>
   >({ rejectMessage: 'Ошибка при получении списка ингридиентов' });
 
-  const getData = useCallback(async () => {
-    setLoading(true);
+  const getData = useCallback(
+    async (controller: AbortController) => {
+      setLoading(true);
 
-    const resp = await list((controller) => IngredientService.list(controller));
+      const resp = await list(() => IngredientService.list(controller));
 
-    if (resp) {
-      IngredientStore.initData(resp);
-      setLoading(false);
-    }
-  }, [list]);
+      if (resp) {
+        IngredientStore.initData(resp);
+        setLoading(false);
+      }
+    },
+    [list]
+  );
 
   useEffect(() => {
-    getData();
+    console.log('IngredientModule mounted');
+    const controller = new AbortController();
+    getData(controller);
 
     return () => {
+      console.log('IngredientModule unmounted');
+      controller.abort();
       IngredientStore.clear();
     };
   }, [getData]);
