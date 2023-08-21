@@ -36,12 +36,10 @@ export const IngredientModule: FC = observer(() => {
   );
 
   useEffect(() => {
-    console.log('IngredientModule mounted');
     const controller = new AbortController();
     getData(controller);
 
     return () => {
-      console.log('IngredientModule unmounted');
       controller.abort();
       IngredientStore.clear();
     };

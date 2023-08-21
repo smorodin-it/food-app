@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useSnackbar } from 'notistack';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { AxiosRequest, MessageArg, UseApiHiikReturnType } from './types';
@@ -14,24 +14,12 @@ export function useApiHook<
   }
 ): UseApiHiikReturnType<ResponseDataType, SubmitObjectType> {
   const { enqueueSnackbar } = useSnackbar();
-  // const controllerRef = useRef<AbortController | null>(null);
-  // const controllerRef = useMemo(() => new AbortController(), []);
-  // const controllerRef = new AbortController();
-
   const msg = useMemo(() => {
     return {
       rejectMessage: messages.rejectMessage,
       resolveMessage: messages.resolveMessage,
     };
   }, [messages.rejectMessage, messages.resolveMessage]);
-
-  // useEffect(() => {
-  //   console.log('useApiHook mounted');
-  //   return () => {
-  //     console.log('useApiHook unmounted');
-  //     controllerRef.abort();
-  //   };
-  // }, []);
 
   const handleRequest = useCallback(
     async <T>(request: AxiosRequest<T>, submitObject?: SubmitObjectType) => {
