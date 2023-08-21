@@ -9,9 +9,9 @@ import { IngredientAddEditFormFields } from './IngredientAddEditFormFields';
 import { FC, useEffect, useRef } from 'react';
 import { getIngredientAddEditFormInitialObject } from '../utils/functions';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DevTool } from '@hookform/devtools';
-import { useApiHook } from '@food-app/frontend/utils';
+import { routes, useApiHook } from '@food-app/frontend/utils';
 import { ResponseAdd } from '@food-app/core';
+import { useNavigate } from 'react-router-dom';
 
 export const IngredientAddForm: FC = () => {
   const { handleRequest: create } = useApiHook<ResponseAdd>({
@@ -23,6 +23,8 @@ export const IngredientAddForm: FC = () => {
     defaultValues: getIngredientAddEditFormInitialObject(),
     resolver: zodResolver(ingredientAddEditModelSchema),
   });
+
+  const navigate = useNavigate();
 
   const controllerRef = useRef<AbortController | null>(null);
 
@@ -36,7 +38,7 @@ export const IngredientAddForm: FC = () => {
     );
 
     if (resp) {
-      console.log('created!', resp.id);
+      navigate(routes.ingredients.update(resp.id));
     }
   };
 
@@ -53,7 +55,6 @@ export const IngredientAddForm: FC = () => {
       onSubmit={onSubmit}
     >
       <IngredientAddEditFormFields />
-      <DevTool control={methods.control} />
     </BaseFormComponent>
   );
 };

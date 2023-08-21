@@ -62,7 +62,12 @@ export const IngredientModule: FC = observer(() => {
         type: CRUD_TABLE_ACTIONS.CELL,
         renderComponent: (object) => {
           return (
-            <ButtonLinkComponent buttonText={'Edit'} to={`/${object?.id}`} />
+            object && (
+              <ButtonLinkComponent
+                buttonText={'Edit'}
+                to={routes.ingredients.update(object.id)}
+              />
+            )
           );
         },
       },

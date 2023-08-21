@@ -1,7 +1,7 @@
 export class IngredientCreateUpdateDto {
   name!: string;
   manufacturer!: string;
-  barcode!: number;
+  barcode!: string;
   proteins!: number;
   carbs!: number;
   fats!: number;

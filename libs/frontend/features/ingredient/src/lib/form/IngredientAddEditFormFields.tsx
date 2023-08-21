@@ -1,8 +1,7 @@
-import { TextFieldFormComponent } from '@food-app/frontend/ui';
 import { FC } from 'react';
+import { TextFieldFormComponent } from '@food-app/frontend/ui';
 
 interface IngredientAddEditFormFieldsProps {
-  loading?: boolean;
   disabled?: boolean;
 }
 
@@ -24,7 +23,6 @@ export const IngredientAddEditFormFields: FC<
       <TextFieldFormComponent
         label={'Barcode'}
         name={'barcode'}
-        type={'number'}
         disabled={props.disabled}
       />
       <TextFieldFormComponent

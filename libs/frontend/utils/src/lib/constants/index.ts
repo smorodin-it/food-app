@@ -6,7 +6,7 @@ export const routes = {
     list: () => '/ingredient',
     create: () => '/ingredient/add',
     update: (ingredientId = ':ingredientId') =>
-      `/ingredient/edit${ingredientId}`,
+      `/ingredient/edit/${ingredientId}`,
   },
 };
 

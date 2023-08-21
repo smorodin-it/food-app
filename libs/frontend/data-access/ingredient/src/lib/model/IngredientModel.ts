@@ -12,6 +12,7 @@ export const ingredientListModelSchema = z.object({
 export type IngredientListModel = z.infer<typeof ingredientListModelSchema>;
 
 export const ingredientModelSchema = z.object({
+  barcode: z.string(),
   id: z.string(),
   name: z.string(),
   manufacturer: z.string(),
@@ -24,7 +25,7 @@ export const ingredientModelSchema = z.object({
 export type IngredientModel = z.infer<typeof ingredientModelSchema>;
 
 export const ingredientAddEditModelSchema = z.object({
-  barcode: z.coerce.number(),
+  barcode: z.string(),
   name: z.string(),
   manufacturer: z.string(),
   proteins: z.coerce.number(),

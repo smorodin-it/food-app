@@ -15,6 +15,7 @@ import { AuthTabsSync } from '@food-app/frontend/features/auth';
 import { FC } from 'react';
 import { IngredientModule } from '@food-app/frontend/features/ingredient';
 import { IngredientAddForm } from '@food-app/frontend/features/ingredient';
+import { IngredientEditForm } from '@food-app/frontend/features/ingredient';
 
 export const router = createBrowserRouter(
   createRoutesFromElements([
@@ -34,6 +35,10 @@ export const router = createBrowserRouter(
         <Route
           path={routes.ingredients.create()}
           element={<IngredientAddForm />}
+        />
+        <Route
+          path={routes.ingredients.update()}
+          element={<IngredientEditForm />}
         />
       </Route>
       <Route path={routes.signUp()} element={'Sign Up Page'} />,
