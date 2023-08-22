@@ -1,4 +1,4 @@
-import axios, { HttpStatusCode } from 'axios';
+import axios, { CanceledError, HttpStatusCode } from 'axios';
 import { InternalAxiosRequestConfig } from 'axios/index';
 import {
   BroadcastAuthMessages,
@@ -34,7 +34,10 @@ $api.interceptors.request.use((config) => {
 $api.interceptors.response.use(
   (config) => config,
   async (error) => {
-    if (error.response.status === HttpStatusCode.Unauthorized) {
+    if (
+      !(error instanceof CanceledError) &&
+      error.response.status === HttpStatusCode.Unauthorized
+    ) {
       const originalRequest: InternalAxiosRequestConfig | undefined =
         error.config;
 
@@ -77,6 +80,6 @@ $api.interceptors.response.use(
       }
     }
 
-    return error;
+    return Promise.reject(error);
   }
 );

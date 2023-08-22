@@ -5,9 +5,9 @@ import {
   IngredientService,
 } from '@food-app/frontend/data-access/ingredient';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { BaseFormComponent } from '@food-app/frontend/ui';
+import { BaseFormComponent, LinearLoaderCentered } from '@food-app/frontend/ui';
 import { IngredientAddEditFormFields } from './IngredientAddEditFormFields';
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { getIngredientAddEditFormInitialObject } from '../utils/functions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useApiHook } from '@food-app/frontend/utils';
@@ -30,37 +30,8 @@ export const IngredientEditForm: FC = () => {
 
   const { ingredientId } = useParams<{ ingredientId: string }>();
 
-  const getData = useCallback(async () => {
-    controllerRef.current = new AbortController();
-    let result = getIngredientAddEditFormInitialObject();
-
-    if (ingredientId && controllerRef.current) {
-      setLoading(true);
-      const resp = await retrieve(() =>
-        IngredientService.retrieve(ingredientId!, controllerRef.current!)
-      );
-
-      if (resp) {
-        result = {
-          barcode: resp.barcode,
-          calories: resp.calories,
-          carbs: resp.carbs,
-          fats: resp.fats,
-          manufacturer: resp.manufacturer,
-          name: resp.name,
-          proteins: resp.proteins,
-        };
-      }
-    }
-
-    setLoading(false);
-    controllerRef.current = null;
-
-    return result;
-  }, [ingredientId, retrieve]);
-
   const methods = useForm<IngredientAddEditModel>({
-    defaultValues: async () => getData(),
+    defaultValues: getIngredientAddEditFormInitialObject(),
     resolver: zodResolver(ingredientAddEditModelSchema),
   });
 
@@ -76,13 +47,47 @@ export const IngredientEditForm: FC = () => {
   };
 
   useEffect(() => {
-    return () => {
-      controllerRef.current?.abort();
-      controllerRef.current = null;
-    };
-  }, []);
+    const getData = async (): Promise<void> => {
+      controllerRef.current = new AbortController();
+      let result = getIngredientAddEditFormInitialObject();
 
-  return (
+      if (ingredientId && controllerRef.current) {
+        setLoading(true);
+        const resp = await retrieve(() =>
+          IngredientService.retrieve(ingredientId, controllerRef.current!)
+        );
+
+        if (resp) {
+          result = {
+            barcode: resp.barcode,
+            calories: resp.calories,
+            carbs: resp.carbs,
+            fats: resp.fats,
+            manufacturer: resp.manufacturer,
+            name: resp.name,
+            proteins: resp.proteins,
+          };
+
+          methods.reset(result);
+          setLoading(false);
+          controllerRef.current = null;
+        }
+      }
+    };
+
+    getData();
+
+    return () => {
+      if (controllerRef.current) {
+        controllerRef.current.abort();
+        controllerRef.current = null;
+      }
+    };
+  }, [ingredientId, methods, retrieve]);
+
+  return loading ? (
+    <LinearLoaderCentered />
+  ) : (
     <BaseFormComponent<IngredientAddEditModel>
       methods={methods}
       onSubmit={onSubmit}

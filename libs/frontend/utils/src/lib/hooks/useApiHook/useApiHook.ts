@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useSnackbar } from 'notistack';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse, CanceledError } from 'axios';
 import { AxiosRequest, MessageArg, UseApiHiikReturnType } from './types';
 
 export function useApiHook<
@@ -44,8 +44,8 @@ export function useApiHook<
       } catch (error) {
         if (
           error &&
-          error instanceof AxiosError &&
-          (error.code === 'ECONNABORTED' || error.code === 'ERR_CANCELED')
+          error instanceof CanceledError &&
+          error.code === 'ERR_CANCELED'
         ) {
           return;
         }
