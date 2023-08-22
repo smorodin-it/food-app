@@ -4,16 +4,6 @@
   "sourceRoot": "libs/frontend/data-access/ingredient/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/frontend/data-access/ingredient",
-        "main": "libs/frontend/data-access/ingredient/src/index.ts",
-        "tsConfig": "libs/frontend/data-access/ingredient/tsconfig.lib.json",
-        "assets": ["libs/frontend/data-access/ingredient/*.md"]
-      }
-    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],

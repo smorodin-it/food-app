@@ -5,7 +5,7 @@ export const NavigationMenuItems: NavigationMenuObjectsListRO = [
   {
     children: [],
     icon: null,
-    route: routes.ingredients.index(),
+    route: routes.ingredients.list(),
     title: 'Ingredients',
     access: true,
   },

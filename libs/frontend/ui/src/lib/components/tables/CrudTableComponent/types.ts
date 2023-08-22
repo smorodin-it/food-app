@@ -1,5 +1,5 @@
 import { ResponsePaginated } from '@food-app/core';
-import { ReactElement, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { CrudTableActionsType } from './constants';
 
 export interface MinimalDataModel extends Record<string, unknown> {
@@ -16,7 +16,7 @@ interface Action<DataModel extends MinimalDataModel> {
    * Компонент кнопки
    */
   renderComponent: (
-    object?: Action<DataModel>['type'] extends 'add' ? never : DataModel
+    object?: Action<DataModel>['type'] extends 'top' ? never : DataModel
   ) => ReactNode;
 
   /**
@@ -36,7 +36,7 @@ interface Field<DataModel extends MinimalDataModel> {
    * Функиця которая отрисовывает элемент в ячейке таблицы
    * @param object - Объект с данными который возвращает API
    */
-  render: (object: DataModel) => ReactElement;
+  render: (object: DataModel) => ReactNode;
 }
 
 export interface CrudTableSettings<DataModel extends MinimalDataModel> {
@@ -52,6 +52,8 @@ export interface CrudTableSettings<DataModel extends MinimalDataModel> {
 }
 
 export interface CrudTableProps<DataModel extends MinimalDataModel> {
+  currentPage: number;
+
   /**
    * Настройки таблицы
    */
@@ -97,7 +99,4 @@ export interface CrudTableProps<DataModel extends MinimalDataModel> {
    * Добавить колонку с нумирацией строк
    */
   addNumberingColumn?: boolean;
-
-  // customFilter?: JSX.Element;
-  currentPage: number;
 }

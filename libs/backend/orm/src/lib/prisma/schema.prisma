@@ -51,7 +51,7 @@ model Ingredient {
   id           String               @unique @default(uuid())
   name         String
   manufacturer String
-  barcode      Int                  @unique
+  barcode      String                  @unique
   proteins     Int
   carbs        Int
   fats         Int

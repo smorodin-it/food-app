@@ -4,6 +4,10 @@ import {
   LocalStorageFields,
 } from '../constants';
 
+export const checkIsDev = (): boolean => import.meta.env.DEV;
+
+export const checkIsProd = (): boolean => import.meta.env.PROD;
+
 export const getFromLocalStorage = (field: LocalStorageFields): string | null =>
   localStorage.getItem(field);
 

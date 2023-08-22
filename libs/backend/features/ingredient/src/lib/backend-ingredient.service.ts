@@ -52,6 +52,7 @@ export class BackendIngredientService {
       },
       select: {
         id: true,
+        barcode: true,
         name: true,
         manufacturer: true,
         calories: true,
@@ -62,7 +63,7 @@ export class BackendIngredientService {
     });
   }
 
-  async retrieveByBarcode(barcode: number): Promise<IngredientResponse | null> {
+  async retrieveByBarcode(barcode: string): Promise<IngredientResponse | null> {
     return this.ps.ingredient.findUnique({
       where: { barcode },
       select: {

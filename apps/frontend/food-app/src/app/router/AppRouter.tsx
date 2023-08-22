@@ -13,6 +13,9 @@ import {
 import { routes } from '@food-app/frontend/utils';
 import { AuthTabsSync } from '@food-app/frontend/features/auth';
 import { FC } from 'react';
+import { IngredientModule } from '@food-app/frontend/features/ingredient';
+import { IngredientAddForm } from '@food-app/frontend/features/ingredient';
+import { IngredientEditForm } from '@food-app/frontend/features/ingredient';
 
 export const router = createBrowserRouter(
   createRoutesFromElements([
@@ -24,7 +27,20 @@ export const router = createBrowserRouter(
             <AppPage />
           </RequireAuth>
         }
-      ></Route>
+      >
+        <Route
+          path={routes.ingredients.list()}
+          element={<IngredientModule />}
+        />
+        <Route
+          path={routes.ingredients.create()}
+          element={<IngredientAddForm />}
+        />
+        <Route
+          path={routes.ingredients.update()}
+          element={<IngredientEditForm />}
+        />
+      </Route>
       <Route path={routes.signUp()} element={'Sign Up Page'} />,
       <Route
         path={routes.signIn()}

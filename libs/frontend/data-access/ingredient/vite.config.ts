@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 import viteTsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-  cacheDir: '../../../../node_modules/.vite/frontend-data-access-ingredient',
+  cacheDir: '../../../../node_modules/.vite/frontend-data-access-ingredient2',
 
   plugins: [
     viteTsConfigPaths({

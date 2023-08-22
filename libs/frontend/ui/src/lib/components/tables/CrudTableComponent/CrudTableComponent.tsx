@@ -106,7 +106,7 @@ export const CrudTableComponent = observer(function CrudTableComponent<
 
   return (
     <Stack>
-      <Stack justifyContent={'space-between'}>
+      <Stack justifyContent={'space-between'} alignItems={'flex-start'}>
         <>
           {renderActionAddComponent()}
           {props.withPagination && (

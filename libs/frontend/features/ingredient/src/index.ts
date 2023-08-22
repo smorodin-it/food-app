@@ -1,1 +1,1 @@
-export * from './lib/components/IngredientModule';
+export * from './lib';

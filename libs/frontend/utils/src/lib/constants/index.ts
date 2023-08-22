@@ -3,7 +3,10 @@ export const routes = {
   signUp: () => '/sign-up',
   signIn: () => '/sign-in',
   ingredients: {
-    index: () => '/ingredients',
+    list: () => '/ingredient',
+    create: () => '/ingredient/add',
+    update: (ingredientId = ':ingredientId') =>
+      `/ingredient/edit/${ingredientId}`,
   },
 };
 
