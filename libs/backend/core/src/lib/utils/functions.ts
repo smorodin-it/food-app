@@ -1,4 +1,4 @@
-import { PaginationQueryModel } from '../models/QueryModel';
+import { PaginationQueryModel } from '../core-dto';
 
 interface PrismaPaginationFields {
   take: number;
