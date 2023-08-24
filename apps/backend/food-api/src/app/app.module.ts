@@ -7,6 +7,8 @@ import { BackendUserModule } from '@food-app/backend/features/user';
 import { BackendAuthModule } from '@food-app/backend/features/auth';
 import { BackendIngredientModule } from '@food-app/backend/features/ingredient';
 import { BackendClsStoreModule } from '@food-app/backend/cls-store';
+import { APP_PIPE } from '@nestjs/core';
+import { ZodValidationPipe } from 'nestjs-zod';
 
 @Module({
   imports: [
@@ -17,6 +19,6 @@ import { BackendClsStoreModule } from '@food-app/backend/cls-store';
     BackendIngredientModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [{ provide: APP_PIPE, useClass: ZodValidationPipe }, AppService],
 })
 export class AppModule {}

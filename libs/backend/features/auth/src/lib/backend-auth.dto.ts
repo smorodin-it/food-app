@@ -1,30 +1,30 @@
-import { IsEmail, IsNotEmpty, IsUUID } from 'class-validator';
-import { IsEqualTo } from './backend-auth.decorators';
+import { z } from 'nestjs-zod/z';
+import { createZodDto } from 'nestjs-zod';
 
-export class SignInDto {
-  @IsEmail()
-  email!: string;
+export const SignInSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
 
-  @IsNotEmpty()
-  password!: string;
-}
+export class SignInDto extends createZodDto(SignInSchema) {}
 
-export class SignUpDto {
-  @IsEmail()
-  email!: string;
+export const SignUpSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string(),
+    confirmPassword: z.string(),
+  })
+  .refine((arg) => arg.password === arg.confirmPassword, {
+    message: 'Password and Confirm Password fields must have same value',
+  });
 
-  @IsNotEmpty()
-  password!: string;
+export class SignUpDto extends createZodDto(SignUpSchema) {}
 
-  @IsNotEmpty()
-  @IsEqualTo<SignUpDto>('password')
-  confirmPassword!: string;
-}
+export const RefreshTokenSchema = z.object({
+  refreshToken: z.string().uuid(),
+});
 
-export class RefreshTokenDto {
-  @IsUUID('4')
-  refreshToken!: string;
-}
+export class RefreshTokenDto extends createZodDto(RefreshTokenSchema) {}
 
 export class ResponseTokens {
   accessToken!: string;
