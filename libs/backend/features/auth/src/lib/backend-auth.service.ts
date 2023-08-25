@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -52,7 +51,7 @@ export class BackendAuthService {
       return this._generateTokens(user);
     }
 
-    throw new NotFoundException();
+    throw new NotFoundException('Account with provided credentials not found');
   }
 
   async refreshTokens(dto: RefreshTokenDto): Promise<ResponseTokens | null> {
