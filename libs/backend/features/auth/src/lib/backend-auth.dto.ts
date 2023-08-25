@@ -2,21 +2,17 @@ import { z } from 'nestjs-zod/z';
 import { createZodDto } from 'nestjs-zod';
 
 export const SignInSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
+  email: z.string().email().max(20),
+  password: z.string().min(8).max(20),
 });
 
 export class SignInDto extends createZodDto(SignInSchema) {}
 
-export const SignUpSchema = z
-  .object({
-    email: z.string().email(),
-    password: z.string(),
-    confirmPassword: z.string(),
-  })
-  .refine((arg) => arg.password === arg.confirmPassword, {
-    message: 'Password and Confirm Password fields must have same value',
-  });
+export const SignUpSchema = SignInSchema.extend({
+  confirmPassword: z.string(),
+}).refine((arg) => arg.password === arg.confirmPassword, {
+  message: 'Password and Confirm Password fields must have same value',
+});
 
 export class SignUpDto extends createZodDto(SignUpSchema) {}
 
