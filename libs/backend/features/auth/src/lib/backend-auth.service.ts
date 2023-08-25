@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -12,7 +13,7 @@ import {
 } from './backend-auth.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { User as UserModel } from '@food-app/backend/orm';
+import { Prisma, User as UserModel } from '@food-app/backend/orm';
 import { randomUUID } from 'crypto';
 
 @Injectable()
@@ -21,12 +22,23 @@ export class BackendAuthService {
 
   async createUser(dto: SignUpDto): Promise<ResponseTokens | null> {
     const hash = await bcrypt.hash(dto.password, 10);
-    if (hash && dto.password === dto.confirmPassword) {
-      const user = await this.us.create({
-        email: dto.email,
-        passwordHash: hash,
-      });
-      return this._generateTokens(user);
+    if (hash) {
+      try {
+        const user = await this.us.create({
+          email: dto.email,
+          passwordHash: hash,
+        });
+        return this._generateTokens(user);
+      } catch (e) {
+        if (
+          e instanceof Prisma.PrismaClientKnownRequestError &&
+          e.code === 'P2002'
+        ) {
+          throw new ConflictException(
+            `User with email ${dto.email} already exist`
+          );
+        }
+      }
     }
 
     throw new BadRequestException();
