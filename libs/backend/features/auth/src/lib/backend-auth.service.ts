@@ -61,7 +61,9 @@ export class BackendAuthService {
       return this._generateTokens(user);
     }
 
-    throw new NotFoundException();
+    throw new NotFoundException(
+      'Account with provided refresh token not found'
+    );
   }
 
   private async _generateTokens(

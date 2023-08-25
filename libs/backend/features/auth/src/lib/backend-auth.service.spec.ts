@@ -3,7 +3,7 @@ import { ConflictException, NotFoundException } from '@nestjs/common';
 import { BackendAuthService } from './backend-auth.service';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { BackendUserService } from '@food-app/backend/features/user';
-import { SignInDto, SignUpDto } from './backend-auth.dto';
+import { RefreshTokenDto, SignInDto, SignUpDto } from './backend-auth.dto';
 
 import { Prisma, User as UserModel } from '@food-app/backend/orm';
 
@@ -40,7 +40,7 @@ describe('BackendAuthService', () => {
       const user: UserModel = {
         active: false,
         email: signUpDto.email,
-        id: crypto.randomUUID(),
+        id: '',
         passwordHash: '',
         refreshToken: crypto.randomUUID(),
       };
@@ -88,7 +88,7 @@ describe('BackendAuthService', () => {
     const user: UserModel = {
       active: false,
       email: signInDto.email,
-      id: crypto.randomUUID(),
+      id: '',
       passwordHash: '',
       refreshToken: crypto.randomUUID(),
     };
@@ -152,6 +152,49 @@ describe('BackendAuthService', () => {
       expect(err?.getResponse()).toStrictEqual({
         error: 'Not Found',
         message: 'Account with provided credentials not found',
+        statusCode: 404,
+      });
+    });
+  });
+
+  describe('refreshTokens method', () => {
+    const refreshTokenDto: RefreshTokenDto = {
+      refreshToken: crypto.randomUUID(),
+    };
+
+    it('should return tokens if refresh token valid', async () => {
+      const user: UserModel = {
+        active: false,
+        email: 'test@test.local',
+        id: '',
+        passwordHash: '',
+        refreshToken: refreshTokenDto.refreshToken,
+      };
+
+      userService.retrieveByRefreshToken.mockResolvedValueOnce(user);
+
+      const tokens = await service.refreshTokens(refreshTokenDto);
+
+      expect(tokens).toHaveProperty('accessToken');
+      expect(tokens).toHaveProperty('refreshToken');
+    });
+
+    it('should return NotFoundException if refresh token not found', async () => {
+      userService.retrieveByRefreshToken.mockResolvedValueOnce(null);
+
+      let err: NotFoundException | null = null;
+
+      try {
+        await service.refreshTokens(refreshTokenDto);
+      } catch (e) {
+        if (e instanceof NotFoundException) {
+          err = e;
+        }
+      }
+
+      expect(err?.getResponse()).toStrictEqual({
+        error: 'Not Found',
+        message: 'Account with provided refresh token not found',
         statusCode: 404,
       });
     });
