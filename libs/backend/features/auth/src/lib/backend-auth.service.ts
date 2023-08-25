@@ -21,6 +21,7 @@ export class BackendAuthService {
   constructor(private us: BackendUserService, private js: JwtService) {}
 
   async createUser(dto: SignUpDto): Promise<ResponseTokens | null> {
+    let tokens: ResponseTokens | null = null;
     const hash = await bcrypt.hash(dto.password, 10);
     if (hash) {
       try {
@@ -28,7 +29,7 @@ export class BackendAuthService {
           email: dto.email,
           passwordHash: hash,
         });
-        return this._generateTokens(user);
+        tokens = await this._generateTokens(user);
       } catch (e) {
         if (
           e instanceof Prisma.PrismaClientKnownRequestError &&
@@ -41,7 +42,7 @@ export class BackendAuthService {
       }
     }
 
-    throw new BadRequestException();
+    return tokens;
   }
 
   async validateUser(dto: SignInDto): Promise<ResponseTokens | null> {
