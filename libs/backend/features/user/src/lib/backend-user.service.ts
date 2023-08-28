@@ -1,18 +1,37 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService, User as UserModel } from '@food-app/backend/orm';
+import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  Prisma,
+  PrismaService,
+  User as UserModel,
+} from '@food-app/backend/orm';
 import { CreateUserDto } from './backend-user.dto';
 
 @Injectable()
 export class BackendUserService {
   constructor(private ps: PrismaService) {}
 
-  async create(dto: CreateUserDto): Promise<UserModel> {
-    return this.ps.user.create({
-      data: {
-        email: dto.email,
-        passwordHash: dto.passwordHash,
-      },
-    });
+  async create(dto: CreateUserDto): Promise<UserModel | null> {
+    let user: UserModel | null = null;
+
+    try {
+      user = await this.ps.user.create({
+        data: {
+          email: dto.email,
+          passwordHash: dto.passwordHash,
+        },
+      });
+    } catch (e) {
+      if (
+        e instanceof Prisma.PrismaClientKnownRequestError &&
+        e.code === 'P2002'
+      ) {
+        throw new ConflictException(
+          `User with email ${dto.email} already exist`
+        );
+      }
+    }
+
+    return user;
   }
 
   async retrieve(id: string): Promise<UserModel | null> {

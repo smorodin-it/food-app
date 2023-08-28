@@ -5,7 +5,7 @@ import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { BackendUserService } from '@food-app/backend/features/user';
 import { RefreshTokenDto, SignInDto, SignUpDto } from './backend-auth.dto';
 
-import { Prisma, User as UserModel } from '@food-app/backend/orm';
+import { User as UserModel } from '@food-app/backend/orm';
 
 import * as crypto from 'crypto';
 import * as bcrypt from 'bcrypt';
@@ -55,10 +55,9 @@ describe('BackendAuthService', () => {
 
     it('should throw ConflictException if user with email already exist', async () => {
       userService.create.mockImplementation(() => {
-        throw new Prisma.PrismaClientKnownRequestError('', {
-          code: 'P2002',
-          clientVersion: '',
-        });
+        throw new ConflictException(
+          `User with email ${signUpDto.email} already exist`
+        );
       });
 
       let err: ConflictException | null = null;
