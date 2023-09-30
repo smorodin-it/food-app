@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { BackendUserService } from '@food-app/backend/features/user';
 import {
   SignInDto,
@@ -20,16 +16,20 @@ export class BackendAuthService {
   constructor(private us: BackendUserService, private js: JwtService) {}
 
   async createUser(dto: SignUpDto): Promise<ResponseTokens | null> {
+    let tokens: ResponseTokens | null = null;
     const hash = await bcrypt.hash(dto.password, 10);
-    if (hash && dto.password === dto.confirmPassword) {
+    if (hash) {
       const user = await this.us.create({
         email: dto.email,
         passwordHash: hash,
       });
-      return this._generateTokens(user);
+
+      if (user) {
+        tokens = await this._generateTokens(user);
+      }
     }
 
-    throw new BadRequestException();
+    return tokens;
   }
 
   async validateUser(dto: SignInDto): Promise<ResponseTokens | null> {
@@ -39,7 +39,7 @@ export class BackendAuthService {
       return this._generateTokens(user);
     }
 
-    throw new NotFoundException();
+    throw new NotFoundException('Account with provided credentials not found');
   }
 
   async refreshTokens(dto: RefreshTokenDto): Promise<ResponseTokens | null> {
@@ -49,7 +49,9 @@ export class BackendAuthService {
       return this._generateTokens(user);
     }
 
-    throw new NotFoundException();
+    throw new NotFoundException(
+      'Account with provided refresh token not found'
+    );
   }
 
   private async _generateTokens(

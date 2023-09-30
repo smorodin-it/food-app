@@ -1,15 +1,16 @@
 import { Test } from '@nestjs/testing';
 import { BackendAuthController } from './backend-auth.controller';
-import { BackendAuthService } from './backend-auth.service';
+import { createMock } from '@golevelup/ts-jest';
 
 describe('BackendAuthController', () => {
   let controller: BackendAuthController;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [BackendAuthService],
       controllers: [BackendAuthController],
-    }).compile();
+    })
+      .useMocker(createMock)
+      .compile();
 
     controller = module.get(BackendAuthController);
   });
