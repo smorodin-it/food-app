@@ -1,6 +1,5 @@
 import {
   AuthService,
-  AuthStore,
   SignInModel,
   signInSchema,
 } from '@food-app/frontend/data-access/auth';
@@ -29,7 +28,6 @@ export const SignInForm: FC = () => {
     });
 
     if (resp) {
-      AuthStore.processTokens(resp.data);
       sendBroadcastMessage(BroadcastChannels.AUTH, BroadcastAuthMessages.LOGIN);
     }
   };

@@ -1,4 +1,3 @@
-import { $api } from '@food-app/frontend/data-access/https';
 import { AxiosResponse } from 'axios';
 import {
   IngredientAddEditModel,
@@ -11,6 +10,7 @@ import {
   ResponsePaginated,
   ResponseStatus,
 } from '@food-app/core';
+import { $api } from '@food-app/frontend/data-access/auth';
 
 export class IngredientService {
   static async list(

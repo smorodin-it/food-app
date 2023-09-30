@@ -1,33 +1,33 @@
 import { makeAutoObservable } from 'mobx';
-import { TokenPayloadModel, TokensModel } from '../model/AuthModel';
-import {
-  isHaveTokens,
-  LocalStorageFields,
-  removeFromLocalStorage,
-  setToLocalStorage,
-} from '@food-app/frontend/utils';
+import { TokenPayloadModel } from '../model/AuthModel';
 
 class Auth {
-  isAuth = isHaveTokens();
-  tokenPayload: TokenPayloadModel | null = null;
+  accessToken: string | null = null;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  setAuth(status: boolean): void {
-    this.isAuth = status;
+  get isAuth(): boolean {
+    return !!this.accessToken;
   }
 
-  processTokens(tokens: TokensModel | null): void {
-    this.setTokenPayload(tokens?.accessToken ?? null);
-    this.setTokensToLocalStorage(tokens);
+  get tokenPayload(): TokenPayloadModel | null {
+    let result = null;
+
+    if (this.accessToken) {
+      result = this.parseJwt(this.accessToken);
+    }
+
+    return result;
+  }
+
+  setAccessToken(accessToken: string | null): void {
+    this.accessToken = accessToken;
   }
 
   clear(): void {
-    this.setAuth(false);
-    this.setTokenPayload(null);
-    this.setTokensToLocalStorage(null);
+    this.setAccessToken(null);
   }
 
   private parseJwt(token: string) {
@@ -42,24 +42,6 @@ class Auth {
     );
 
     return JSON.parse(jsonPayload) as TokenPayloadModel;
-  }
-
-  private setTokenPayload(token: string | null): void {
-    if (token) {
-      this.tokenPayload = this.parseJwt(token);
-    } else {
-      this.tokenPayload = null;
-    }
-  }
-
-  private setTokensToLocalStorage(tokens: TokensModel | null): void {
-    if (tokens) {
-      setToLocalStorage(LocalStorageFields.ACCESS_TOKEN, tokens.accessToken);
-      setToLocalStorage(LocalStorageFields.REFRESH_TOKEN, tokens.refreshToken);
-    } else {
-      removeFromLocalStorage(LocalStorageFields.ACCESS_TOKEN);
-      removeFromLocalStorage(LocalStorageFields.REFRESH_TOKEN);
-    }
   }
 }
 

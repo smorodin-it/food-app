@@ -1,7 +1,7 @@
 import {
   BroadcastAuthMessages,
   BroadcastChannels,
-  isHaveTokens,
+  BroadcastMessageObject,
   routes,
 } from '@food-app/frontend/utils';
 import { AuthStore } from '@food-app/frontend/data-access/auth';
@@ -12,11 +12,12 @@ export const AuthTabsSync: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const bcHandler = (event: MessageEvent<BroadcastAuthMessages>) => {
-    switch (event.data) {
+  const bcHandler = (event: MessageEvent<BroadcastMessageObject>) => {
+    switch (event.data.type) {
       case BroadcastAuthMessages.LOGIN:
-        if (isHaveTokens()) {
-          AuthStore.setAuth(true);
+        if (event.data.payload && event.data.payload.accessToken) {
+          AuthStore.setAccessToken(event.data.payload.accessToken);
+
           if (location.pathname === routes.signIn()) {
             if (location.state && 'from' in location.state) {
               navigate(location.state.from);
@@ -25,6 +26,7 @@ export const AuthTabsSync: FC = () => {
             }
           }
         }
+
         break;
 
       case BroadcastAuthMessages.LOGOUT:

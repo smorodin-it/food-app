@@ -4,7 +4,7 @@ import {
   SignInModel,
   TokensModel,
 } from '../model/AuthModel';
-import { $api } from '@food-app/frontend/data-access/https';
+import { $api } from '../https';
 
 export class AuthService {
   static signIn(

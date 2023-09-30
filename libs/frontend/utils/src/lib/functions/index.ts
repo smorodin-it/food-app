@@ -1,38 +1,18 @@
-import {
-  BroadcastAuthMessages,
-  BroadcastChannels,
-  LocalStorageFields,
-} from '../constants';
+import { BroadcastAuthMessages, BroadcastChannels } from '../constants';
 
 export const checkIsDev = (): boolean => import.meta.env.DEV;
 
-export const checkIsProd = (): boolean => import.meta.env.PROD;
+type BCMessagesType = BroadcastAuthMessages;
+type BCMessagesPayload = { accessToken: string };
 
-export const getFromLocalStorage = (field: LocalStorageFields): string | null =>
-  localStorage.getItem(field);
-
-export const setToLocalStorage = (
-  key: LocalStorageFields,
-  newValue: string
-): void => {
-  localStorage.setItem(key, newValue);
-};
-
-export const removeFromLocalStorage = (key: LocalStorageFields): void => {
-  localStorage.removeItem(key);
-};
-
-export const isHaveTokens = (): boolean =>
-  !!(
-    getFromLocalStorage(LocalStorageFields.ACCESS_TOKEN) &&
-    getFromLocalStorage(LocalStorageFields.REFRESH_TOKEN)
-  );
-
-type BCMessages = BroadcastAuthMessages;
+export interface BroadcastMessageObject {
+  type: BCMessagesType;
+  payload?: BCMessagesPayload;
+}
 
 export const sendBroadcastMessage = (
   channel: BroadcastChannels,
-  message: BCMessages
+  message: BroadcastMessageObject
 ): void => {
   const bc = new BroadcastChannel(channel);
   bc.postMessage(message);

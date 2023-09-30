@@ -31,9 +31,6 @@
       "@food-app/frontend/data-access/auth": [
         "libs/frontend/data-access/auth/src/index.ts"
       ],
-      "@food-app/frontend/data-access/https": [
-        "libs/frontend/data-access/https/src/index.ts"
-      ],
       "@food-app/frontend/data-access/ingredient": [
         "libs/frontend/data-access/ingredient/src/index.ts"
       ],

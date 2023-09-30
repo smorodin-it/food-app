@@ -5,6 +5,11 @@ import viteTsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   cacheDir: '../../../node_modules/.vite/frontend-food-app',
+  build: {
+    rollupOptions: {
+      external: ['@nestjs/swagger/dist/services/schema-object-factory'],
+    },
+  },
 
   server: {
     port: 4200,
